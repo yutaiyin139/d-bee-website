@@ -1,0 +1,9 @@
+# 编辑器 / 系统
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# 静态站无需构建；若后续引入本地工具链再启用
+node_modules/

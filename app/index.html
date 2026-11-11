@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>自律蜜蜂 D-Bee 官网 — AI 习惯养成 · 番茄专注 · 打卡追踪</title>
+<meta name="description" content="自律蜜蜂（D-Bee）是北京迪蜂科技有限公司推出的轻量化自律工具，提供习惯打卡、番茄专注、目标追踪、数据复盘与 AI 提醒，支持 iOS、安卓与鸿蒙全平台下载。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2048%2048%22%20aria-hidden%3D%22true%22%3E%3Cellipse%20cx%3D%2213.5%22%20cy%3D%2215%22%20rx%3D%228.5%22%20ry%3D%226%22%20fill%3D%22%23FBE7C0%22%20transform%3D%22rotate%28-28%2013.5%2015%29%22%2F%3E%3Cellipse%20cx%3D%2234.5%22%20cy%3D%2215%22%20rx%3D%228.5%22%20ry%3D%226%22%20fill%3D%22%23FBE7C0%22%20transform%3D%22rotate%2828%2034.5%2015%29%22%2F%3E%3Cpath%20d%3D%22M20%2019.5Q19%2014%2015.5%2012.5%22%20stroke%3D%22%232E2418%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M28%2019.5Q29%2014%2032.5%2012.5%22%20stroke%3D%22%232E2418%22%20stroke-width%3D%222%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2215%22%20cy%3D%2212%22%20r%3D%221.7%22%20fill%3D%22%232E2418%22%2F%3E%3Ccircle%20cx%3D%2233%22%20cy%3D%2212%22%20r%3D%221.7%22%20fill%3D%22%232E2418%22%2F%3E%3Cellipse%20cx%3D%2224%22%20cy%3D%2230%22%20rx%3D%2213%22%20ry%3D%2211.5%22%20fill%3D%22%23F2A93B%22%2F%3E%3Cpath%20d%3D%22M13.8%2030Q24%2034.5%2034.2%2030%22%20stroke%3D%22%232E2418%22%20stroke-width%3D%223.2%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M14.8%2035.5Q24%2039.5%2033.2%2035.5%22%20stroke%3D%22%232E2418%22%20stroke-width%3D%223.2%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Ccircle%20cx%3D%2219.5%22%20cy%3D%2224.5%22%20r%3D%221.9%22%20fill%3D%22%232E2418%22%2F%3E%3Ccircle%20cx%3D%2228.5%22%20cy%3D%2224.5%22%20r%3D%221.9%22%20fill%3D%22%232E2418%22%2F%3E%3Cpath%20d%3D%22M21.5%2027.4Q24%2028.9%2026.5%2027.4%22%20stroke%3D%22%232E2418%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%2F%3E%3Cpath%20d%3D%22M24%2041.5l-2.4%204.4h4.8z%22%20fill%3D%22%232E2418%22%2F%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-page="home">
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html" aria-label="自律蜜蜂首页"><svg class="bee-logo" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="13.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(-28 13.5 15)"/><ellipse cx="34.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(28 34.5 15)"/><path d="M20 19.5Q19 14 15.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28 19.5Q29 14 32.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="15" cy="12" r="1.7" fill="#2E2418"/><circle cx="33" cy="12" r="1.7" fill="#2E2418"/><ellipse cx="24" cy="30" rx="13" ry="11.5" fill="#F2A93B"/><path d="M13.8 30Q24 34.5 34.2 30" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M14.8 35.5Q24 39.5 33.2 35.5" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="19.5" cy="24.5" r="1.9" fill="#2E2418"/><circle cx="28.5" cy="24.5" r="1.9" fill="#2E2418"/><path d="M21.5 27.4Q24 28.9 26.5 27.4" stroke="#2E2418" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M24 41.5l-2.4 4.4h4.8z" fill="#2E2418"/></svg><span>自律蜜蜂<small style="margin-left:6px">D-BEE</small></span></a>
+    <nav class="nav" aria-label="主导航"><a href="index.html" data-nav="home">首页</a><a href="features.html" data-nav="features">产品功能</a><a href="download.html" data-nav="download">下载</a><a href="help.html" data-nav="help">帮助中心</a><a href="blog.html" data-nav="blog">博客</a><a href="about.html" data-nav="about">关于我们</a></nav>
+    <a class="btn btn-primary btn-sm header-cta" href="download.html">立即下载</a>
+    <button class="menu-btn" id="menuBtn" aria-label="打开菜单"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+</header>
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="菜单">
+  <div class="header-inner">
+    <a class="brand" href="index.html"><svg class="bee-logo" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="13.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(-28 13.5 15)"/><ellipse cx="34.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(28 34.5 15)"/><path d="M20 19.5Q19 14 15.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28 19.5Q29 14 32.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="15" cy="12" r="1.7" fill="#2E2418"/><circle cx="33" cy="12" r="1.7" fill="#2E2418"/><ellipse cx="24" cy="30" rx="13" ry="11.5" fill="#F2A93B"/><path d="M13.8 30Q24 34.5 34.2 30" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M14.8 35.5Q24 39.5 33.2 35.5" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="19.5" cy="24.5" r="1.9" fill="#2E2418"/><circle cx="28.5" cy="24.5" r="1.9" fill="#2E2418"/><path d="M21.5 27.4Q24 28.9 26.5 27.4" stroke="#2E2418" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M24 41.5l-2.4 4.4h4.8z" fill="#2E2418"/></svg><span>自律蜜蜂<small style="margin-left:6px">D-BEE</small></span></a>
+    <button class="menu-btn" id="menuClose" style="display:flex" aria-label="关闭菜单"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
+  </div>
+  <nav aria-label="移动端导航"><a href="index.html" data-nav="home">首页 <span style="color:var(--accent-deep)">→</span></a><a href="features.html" data-nav="features">产品功能 <span style="color:var(--accent-deep)">→</span></a><a href="download.html" data-nav="download">下载 <span style="color:var(--accent-deep)">→</span></a><a href="help.html" data-nav="help">帮助中心 <span style="color:var(--accent-deep)">→</span></a><a href="blog.html" data-nav="blog">博客 <span style="color:var(--accent-deep)">→</span></a><a href="about.html" data-nav="about">关于我们 <span style="color:var(--accent-deep)">→</span></a></nav>
+  <div class="menu-foot"><a class="btn btn-primary btn-lg" href="download.html" style="width:100%">立即下载 APP</a></div>
+</div>
+<main id="main">
+
+<!-- 首屏 -->
+<section class="hero">
+  <svg class="hero-honeycomb" viewBox="0 0 560 240" aria-hidden="true"><path d="M90.0,44.0 L129.8,67.0 L129.8,113.0 L90.0,136.0 L50.2,113.0 L50.2,67.0 Z" fill="#FBE7C0"/><path d="M170.0,4.0 L204.6,24.0 L204.6,64.0 L170.0,84.0 L135.4,64.0 L135.4,24.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M170.0,96.0 L204.6,116.0 L204.6,156.0 L170.0,176.0 L135.4,156.0 L135.4,116.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M250.0,44.0 L289.8,67.0 L289.8,113.0 L250.0,136.0 L210.2,113.0 L210.2,67.0 Z" fill="#FBE7C0"/><path d="M330.0,4.0 L364.6,24.0 L364.6,64.0 L330.0,84.0 L295.4,64.0 L295.4,24.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M330.0,96.0 L364.6,116.0 L364.6,156.0 L330.0,176.0 L295.4,156.0 L295.4,116.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M410.0,44.0 L449.8,67.0 L449.8,113.0 L410.0,136.0 L370.2,113.0 L370.2,67.0 Z" fill="#F2A93B" opacity=".55"/><path d="M250.0,142.0 L284.6,162.0 L284.6,202.0 L250.0,222.0 L215.4,202.0 L215.4,162.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M90.0,142.0 L124.6,162.0 L124.6,202.0 L90.0,222.0 L55.4,202.0 L55.4,162.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M410.0,142.0 L444.6,162.0 L444.6,202.0 L410.0,222.0 L375.4,202.0 L375.4,162.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M490.0,4.0 L524.6,24.0 L524.6,64.0 L490.0,84.0 L455.4,64.0 L455.4,24.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M490.0,96.0 L524.6,116.0 L524.6,156.0 L490.0,176.0 L455.4,156.0 L455.4,116.0 Z" fill="none" stroke="#E7DCC3" stroke-width="2"/></svg>
+  <div class="wrap hero-grid">
+    <div>
+      <span class="hero-badge reveal"><span class="dot"></span>内测用户评分 4.9 · 全平台已上架</span>
+      <h1 class="hero-title reveal" data-delay="1">AI 习惯养成 · 番茄专注<br>打卡追踪，<em>轻松对抗拖延</em></h1>
+      <p class="hero-sub reveal" data-delay="2">自律蜜蜂是一款轻量化自律工具：面向考研备考、学生自习与职场目标管理，把「坚持」变成每天看得见的打卡、番茄与复盘。</p>
+      <div class="hero-ctas reveal" data-delay="3">
+        <a class="btn btn-primary btn-lg" href="download.html">立即下载 <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span></a>
+        <a class="btn btn-ghost btn-lg" href="features.html">了解产品功能</a>
+      </div>
+      <div class="hero-qr reveal" data-delay="4">
+        <div class="qr-box">
+          <img src="assets/img/qr-download.svg" alt="扫码下载自律蜜蜂 APP" width="88" height="88">
+          <div class="qr-tip"><b>手机扫码下载</b>iOS / 安卓 / 鸿蒙全平台</div>
+        </div>
+        <div class="qr-tip" style="max-width:220px">也可在应用商店搜索<b style="display:inline;color:var(--accent-deep)">「自律蜜蜂」</b>直接安装</div>
+      </div>
+    </div>
+    <div class="hero-device reveal" data-delay="2">
+      <span class="float-hex float-hex--1"><svg viewBox="0 0 100 100" aria-hidden="true" style="width:100%;height:100%"><path d="M50.0,8.0 L86.4,29.0 L86.4,71.0 L50.0,92.0 L13.6,71.0 L13.6,29.0 Z" fill="#FBE7C0"/><path d="M50.0,20.0 L76.0,35.0 L76.0,65.0 L50.0,80.0 L24.0,65.0 L24.0,35.0 Z" fill="none" stroke="#F2A93B" stroke-width="4"/></svg></span>
+      <span class="float-hex float-hex--2"><svg viewBox="0 0 100 100" aria-hidden="true" style="width:100%;height:100%"><path d="M50.0,8.0 L86.4,29.0 L86.4,71.0 L50.0,92.0 L13.6,71.0 L13.6,29.0 Z" fill="#FBE7C0"/><path d="M50.0,20.0 L76.0,35.0 L76.0,65.0 L50.0,80.0 L24.0,65.0 L24.0,35.0 Z" fill="none" stroke="#F2A93B" stroke-width="4"/></svg></span>
+      <span class="float-bee float-bee--1"><svg class="" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="13.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(-28 13.5 15)"/><ellipse cx="34.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(28 34.5 15)"/><path d="M20 19.5Q19 14 15.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28 19.5Q29 14 32.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="15" cy="12" r="1.7" fill="#2E2418"/><circle cx="33" cy="12" r="1.7" fill="#2E2418"/><ellipse cx="24" cy="30" rx="13" ry="11.5" fill="#F2A93B"/><path d="M13.8 30Q24 34.5 34.2 30" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M14.8 35.5Q24 39.5 33.2 35.5" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="19.5" cy="24.5" r="1.9" fill="#2E2418"/><circle cx="28.5" cy="24.5" r="1.9" fill="#2E2418"/><path d="M21.5 27.4Q24 28.9 26.5 27.4" stroke="#2E2418" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M24 41.5l-2.4 4.4h4.8z" fill="#2E2418"/></svg></span>
+      <span class="float-bee float-bee--2"><svg class="" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="13.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(-28 13.5 15)"/><ellipse cx="34.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(28 34.5 15)"/><path d="M20 19.5Q19 14 15.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28 19.5Q29 14 32.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="15" cy="12" r="1.7" fill="#2E2418"/><circle cx="33" cy="12" r="1.7" fill="#2E2418"/><ellipse cx="24" cy="30" rx="13" ry="11.5" fill="#F2A93B"/><path d="M13.8 30Q24 34.5 34.2 30" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M14.8 35.5Q24 39.5 33.2 35.5" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="19.5" cy="24.5" r="1.9" fill="#2E2418"/><circle cx="28.5" cy="24.5" r="1.9" fill="#2E2418"/><path d="M21.5 27.4Q24 28.9 26.5 27.4" stroke="#2E2418" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M24 41.5l-2.4 4.4h4.8z" fill="#2E2418"/></svg></span>
+      <div class="phone">
+        <div class="phone-screen">
+          <div class="phone-notch"></div>
+          
+<div class="app-screen is-on" role="img" aria-label="习惯打卡界面">
+  <div class="app-status"><span>9:41</span><span>自律蜜蜂</span></div>
+  <div class="app-hi">早上好，小蜂</div>
+  <div class="app-title">今日习惯 3 / 5</div>
+  <div class="app-progress"><i style="width:60%"></i></div>
+  <div class="app-card app-habit"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1.5 3.5 4.5 5.5 4.5 9a4.5 4.5 0 1 1-9 0c0-1.5.5-2.8 1.3-4C9.5 8.5 10.5 9.5 11 10c.5-2.5.5-5 1-8z"/><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-2.5-5.5"/></svg></span><span><span class="nm">06:30 早起</span><br><span class="st">连续 21 天</span></span><span class="app-check done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span></div><div class="app-card app-habit"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5v14z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg></span><span><span class="nm">背单词 30 个</span><br><span class="st">连续 14 天</span></span><span class="app-check done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span></div><div class="app-card app-habit"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/></svg></span><span><span class="nm">番茄专注 × 4</span><br><span class="st">今日已完成 3</span></span><span class="app-check done"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span></div><div class="app-card app-habit"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19.8 5.1a5 5 0 0 0-7.1 0L12 5.8l-.7-.7a5 5 0 1 0-7.1 7.1l.7.7L12 20l7.1-7.1.7-.7a5 5 0 0 0 0-7.1z"/></svg></span><span><span class="nm">运动 30 分钟</span><br><span class="st">坚持 7 天</span></span><span class="app-check "></span></div><div class="app-card app-habit"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 17h7l-7-8h7"/><path d="M14 21h6l-6-7h6" opacity=".55"/></svg></span><span><span class="nm">23:00 前睡觉</span><br><span class="st">本周 5/7</span></span><span class="app-check "></span></div>
+  <div class="app-tabbar"><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-6"/><path d="M13 17V7"/><path d="M18 17v-3"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/></svg></div>
+</div>
+<div class="app-screen" role="img" aria-label="番茄专注界面">
+  <div class="app-status"><span>9:41</span><span>自律蜜蜂</span></div>
+  <div class="app-hi">番茄专注 · 严格模式</div>
+  <div class="app-title">数学错题攻克</div>
+  <div class="pomo-ring">
+    <svg viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#FBE7C0" stroke-width="9"/>
+      <circle cx="60" cy="60" r="52" fill="none" stroke="#F2A93B" stroke-width="9"
+        stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="98"/>
+    </svg>
+    <div class="pomo-time"><b>17:32</b><span>第 3 颗番茄</span></div>
+  </div>
+  <div class="app-card" style="text-align:center;font-size:12px;color:var(--text-2)">白噪音 · 雨打树叶</div>
+  <div class="app-card" style="display:flex;justify-content:center;gap:10px">
+    <span style="font-size:12.5px;font-weight:700;color:var(--accent-deep);background:var(--accent-faint);border-radius:999px;padding:7px 16px">结束专注</span>
+    <span style="font-size:12.5px;font-weight:700;color:var(--text-2);background:var(--p-cream);border-radius:999px;padding:7px 16px">休息一下</span>
+  </div>
+  <div class="app-tabbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/></svg></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-6"/><path d="M13 17V7"/><path d="M18 17v-3"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/></svg></div>
+</div>
+<div class="app-screen" role="img" aria-label="数据复盘界面">
+  <div class="app-status"><span>9:41</span><span>自律蜜蜂</span></div>
+  <div class="app-hi">本周复盘</div>
+  <div class="app-title">你比上周更自律了</div>
+  <div class="stat-row">
+    <div class="stat-cell"><b>21</b><span>连续打卡</span></div>
+    <div class="stat-cell"><b>28</b><span>本周番茄</span></div>
+    <div class="stat-cell"><b>86%</b><span>完成率</span></div>
+  </div>
+  <div class="app-card">
+    <div style="font-size:12px;font-weight:700;color:var(--text-2)">每日专注时长（分钟）</div>
+    <div class="bars"><i class="dim" style="height:35%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:78%"></i><i style="height:66%"></i><i style="height:92%"></i><i style="height:100%"></i></div>
+    <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--text-3);padding:4px 6px 0"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+  </div>
+  <div class="app-card" style="font-size:12px;color:var(--text-2);line-height:1.6"><b style="color:var(--accent-deep)">AI 复盘</b> · 周六专注时长创新高，建议把硬任务固定在周六上午。</div>
+  <div class="app-tabbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/></svg><span class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-6"/><path d="M13 17V7"/><path d="M18 17v-3"/></svg></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/></svg></div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="phone-dots" role="group" aria-label="切换应用截图">
+    <button class="is-on" aria-label="截图 1：习惯打卡" aria-pressed="true"></button>
+    <button aria-label="截图 2：番茄专注" aria-pressed="false"></button>
+    <button aria-label="截图 3：数据复盘" aria-pressed="false"></button>
+  </div>
+</section>
+
+<!-- 应用商店条 -->
+<div class="store-strip">
+  <div class="wrap">
+    <span class="lbl">全平台覆盖</span>
+    <a class="store-chip" href="download.html"><svg viewBox="0 0 384 512" fill="currentColor" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg> App Store</a>
+    <a class="store-chip" href="download.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> 华为应用市场</a>
+    <a class="store-chip" href="download.html"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 15.5a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4zm-11 0a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4zm11.8-5.3l1.5-2.6a.4.4 0 0 0-.7-.4l-1.5 2.7a11.9 11.9 0 0 0-11.2 0l-1.5-2.7a.4.4 0 1 0-.7.4l1.5 2.6A10.9 10.9 0 0 0 1 18h22a10.9 10.9 0 0 0-4.7-7.8z"/></svg> 小米应用商店</a>
+    <a class="store-chip" href="download.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> OPPO 软件商店</a>
+    <a class="store-chip" href="download.html"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 15.5a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4zm-11 0a1.2 1.2 0 1 0 0-2.4 1.2 1.2 0 0 0 0 2.4zm11.8-5.3l1.5-2.6a.4.4 0 0 0-.7-.4l-1.5 2.7a11.9 11.9 0 0 0-11.2 0l-1.5-2.7a.4.4 0 1 0-.7.4l1.5 2.6A10.9 10.9 0 0 0 1 18h22a10.9 10.9 0 0 0-4.7-7.8z"/></svg> vivo 应用商店</a>
+    <a class="store-chip" href="download.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> 鸿蒙应用市场</a>
+  </div>
+</div>
+
+<!-- 核心功能 -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">核心功能</span>
+      <h2 class="sec-title">不只是打卡，是一整套自律系统</h2>
+      <p class="sec-desc">从建立习惯到专注执行，再到每周复盘，自律蜜蜂陪你走完自律的完整闭环。</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card feat-card--wide reveal">
+        <span class="feat-tag">核心</span>
+        <span class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1.5 3.5 4.5 5.5 4.5 9a4.5 4.5 0 1 1-9 0c0-1.5.5-2.8 1.3-4C9.5 8.5 10.5 9.5 11 10c.5-2.5.5-5 1-8z"/><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-2.5-5.5"/></svg></span>
+        <h3>习惯打卡</h3>
+        <p>最小目标 + 触发线索的科学打卡设计，支持自定义频率、提醒时间与打卡模板。连续记录、补签卡、打卡日历一目了然，让坚持看得见。</p>
+      </div>
+      <div class="feat-card feat-card--wide reveal" data-delay="1">
+        <span class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M9 2h6"/></svg></span>
+        <h3>番茄专注</h3>
+        <p>25 分钟经典番茄钟起步，支持自定义时长、白噪音与严格模式。专注期间屏蔽干扰，结束后自动记录到复盘数据。</p>
+      </div>
+      <div class="feat-card reveal">
+        <span class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span>
+        <h3>目标追踪</h3>
+        <p>把大目标拆成周任务，进度条实时更新，逾期自动提醒。</p>
+      </div>
+      <div class="feat-card reveal" data-delay="1">
+        <span class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M8 17v-6"/><path d="M13 17V7"/><path d="M18 17v-3"/></svg></span>
+        <h3>数据复盘</h3>
+        <p>周报、月报自动生成，完成率、连续天数、专注时长趋势一屏掌握。</p>
+      </div>
+      <div class="feat-card reveal" data-delay="2">
+        <span class="feat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.7L19.6 10l-5.7 1.9L12 17.6l-1.9-5.7L4.4 10l5.7-1.3L12 3z"/><path d="M19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8L19 16z"/></svg></span>
+        <h3>AI 提醒与复盘</h3>
+        <p>根据你的作息与完成规律，在最可能执行的时间提醒你，并给出每周改进建议。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 场景化价值 -->
+<section class="section section--alt">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">为谁而做</span>
+      <h2 class="sec-title">四种场景，一种更自律的生活</h2>
+    </div>
+    <div class="scene-grid">
+      <div class="scene-card reveal">
+        <span class="scene-no">01</span>
+        <h3>备考自习</h3>
+        <p>考研、考公、期末周：把 100 天倒计拆成每日番茄与打卡清单，稳定输出比熬夜冲刺更重要。</p>
+        <span class="scene-goal">每日 6 颗番茄 + 错题复盘 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="scene-card reveal" data-delay="1">
+        <span class="scene-no">02</span>
+        <h3>减脂作息</h3>
+        <p>喝水、运动、早睡、饮食记录一站式打卡，用连续天数激励自己撑过最难的前两周。</p>
+        <span class="scene-goal">连续打卡 21 天养成节奏 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="scene-card reveal" data-delay="2">
+        <span class="scene-no">03</span>
+        <h3>项目攻坚</h3>
+        <p>职场 deadline 管理：目标拆解 + 深度工作番茄钟 + 下班前 5 分钟复盘，告别「忙了一天不知道忙了啥」。</p>
+        <span class="scene-goal">每日三件要事优先 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+      </div>
+      <div class="scene-card reveal" data-delay="3">
+        <span class="scene-no">04</span>
+        <h3>戒掉短视频</h3>
+        <p>屏幕时长目标 + 替代习惯组合打卡，把刷手机的碎片时间，一点点换成阅读和运动。</p>
+        <span class="scene-goal">替代习惯打卡法 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 信任区 -->
+<section class="section">
+  <div class="wrap">
+    <div class="trust-wrap reveal">
+      <span class="sec-kicker">为什么信任我们</span>
+      <h2 class="sec-title">自律工具，先把隐私和合规做好</h2>
+      <div class="trust-grid">
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          <h3>本地优先存储</h3>
+          <p>打卡与专注数据默认存储在你的手机上，不上传非必要数据；云端同步可自由开关，随时导出与删除。</p>
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5.5L12 2 4 5.5V12c0 6.5 8 10 8 10z"/><path d="M9 11.5l2.2 2.2L15.5 9.5"/></svg>
+          <h3>正规公司主体</h3>
+          <p>北京迪蜂科技有限公司运营，软件著作权与商标材料齐备，备案与合规信息全站公示。</p>
+        </div>
+        <div class="trust-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/></svg>
+          <h3>透明的权限说明</h3>
+          <p>每一项系统权限都在《隐私政策》中写明用途，拒绝过度索权，撤回授权不影响核心功能使用。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 用户证言 -->
+<section class="section section--alt">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">内测用户说</span>
+      <h2 class="sec-title">他们已经开始变得不一样</h2>
+    </div>
+    <div class="voice-grid">
+      <div class="voice-card reveal">
+        <span class="quote-mark">“</span>
+        <p>二战考研，用自律蜜蜂把每天 8 颗番茄拆到上午下午晚上，连续打卡 63 天。复盘周报让我第一次看清自己的时间到底花在哪。</p>
+        <div class="voice-meta">
+          <span class="voice-ava">林</span>
+          <div><b>林同学</b><span>考研二战 · 计算机</span></div>
+          <span class="voice-streak">连续 63 天</span>
+        </div>
+      </div>
+      <div class="voice-card reveal" data-delay="1">
+        <span class="quote-mark">“</span>
+        <p>之前下了五六个打卡 APP 都没坚持下去，这个的最小目标设计真的有用——「只背 5 个单词」这种目标根本没法失败，结果背着背着就超量了。</p>
+        <div class="voice-meta">
+          <span class="voice-ava">Z</span>
+          <div><b>Zoey</b><span>大四 · 备考雅思</span></div>
+          <span class="voice-streak">连续 41 天</span>
+        </div>
+      </div>
+      <div class="voice-card reveal" data-delay="2">
+        <span class="quote-mark">“</span>
+        <p>产品经理一枚，用它戒睡前刷手机。「23 点无手机 + 阅读 10 分钟」的替代习惯组合打卡，一个月下来睡眠质量明显改善。</p>
+        <div class="voice-meta">
+          <span class="voice-ava">阿</span>
+          <div><b>阿凯</b><span>互联网从业者</span></div>
+          <span class="voice-streak">连续 35 天</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 最新公告 -->
+<section class="section">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-kicker">最新动态</span>
+      <h2 class="sec-title">版本与活动</h2>
+    </div>
+    <div class="notice-list">
+      <a class="notice-item reveal" href="changelog.html">
+        <span class="notice-badge">新版本</span>
+        <div><div class="tt">自律蜜蜂 v1.2.0 全平台发布</div><div class="ds">新增 AI 周报复盘、严格专注模式与 5 套打卡模板 · 2026-10-20</div></div>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="notice-item reveal" data-delay="1" href="blog.html">
+        <span class="notice-badge notice-badge--soft">专栏</span>
+        <div><div class="tt">「21 天习惯养成」专题上线</div><div class="ds">从方法论到模板，陪你走完第一个习惯周期 · 2026-10-24</div></div>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+      </a>
+      <a class="notice-item reveal" data-delay="2" href="about.html#biz">
+        <span class="notice-badge notice-badge--soft">合作</span>
+        <div><div class="tt">校园合作计划开放申请</div><div class="ds">面向高校社团与自习室的渠道合作 · 长期有效</div></div>
+        <span class="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 下载 CTA -->
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-band reveal">
+      <h2>现在，开始你的第一天打卡</h2>
+      <p>下载自律蜜蜂，从一个小到不可能失败的目标开始。</p>
+      <div class="hero-ctas" style="margin-top:30px">
+        <a class="btn btn-light btn-lg" href="download.html">立即下载 <span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="M6 11l6 6 6-6"/><path d="M4 21h16"/></svg></span></a>
+        <a class="btn btn-ghost btn-lg" href="help.html">先看看常见问题</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="index.html"><svg class="bee-logo" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="13.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(-28 13.5 15)"/><ellipse cx="34.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(28 34.5 15)"/><path d="M20 19.5Q19 14 15.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28 19.5Q29 14 32.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="15" cy="12" r="1.7" fill="#2E2418"/><circle cx="33" cy="12" r="1.7" fill="#2E2418"/><ellipse cx="24" cy="30" rx="13" ry="11.5" fill="#F2A93B"/><path d="M13.8 30Q24 34.5 34.2 30" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M14.8 35.5Q24 39.5 33.2 35.5" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="19.5" cy="24.5" r="1.9" fill="#2E2418"/><circle cx="28.5" cy="24.5" r="1.9" fill="#2E2418"/><path d="M21.5 27.4Q24 28.9 26.5 27.4" stroke="#2E2418" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M24 41.5l-2.4 4.4h4.8z" fill="#2E2418"/></svg><span>自律蜜蜂<small style="margin-left:6px">D-BEE</small></span></a>
+        <p>北京迪蜂科技有限公司旗下轻量化自律工具：AI 习惯养成、番茄专注、打卡追踪与数据复盘，帮助备考人群、学生和职场人轻松对抗拖延。</p>
+      </div>
+      <div class="footer-col">
+        <h4>产品</h4>
+        <a href="features.html">产品功能</a>
+        <a href="download.html">下载 APP</a>
+        <a href="changelog.html">版本更新</a>
+        <a href="blog.html">干货博客</a>
+      </div>
+      <div class="footer-col">
+        <h4>支持</h4>
+        <a href="help.html">帮助中心</a>
+        <a href="about.html#contact">联系我们</a>
+        <a href="about.html#biz">商务合作</a>
+        <a href="mailto:dbeesupport@163.com">dbeesupport@163.com</a>
+      </div>
+      <div class="footer-col">
+        <h4>合规</h4>
+        <a href="privacy.html">隐私政策</a>
+        <a href="terms.html">用户服务协议</a>
+        <a href="terms.html#subscription">会员订阅协议</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="year">2026</span> 北京迪蜂科技有限公司 · 自律蜜蜂 D-Bee</span>
+      <span>www.d-bee.com.cn · ICP 备案办理中</span>
+    </div>
+  </div>
+</footer>
+
+<a class="dl-fab" href="download.html" aria-label="立即下载自律蜜蜂">
+  <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
+    <defs><path id="fabCircle" d="M50,50 m-37,0 a37,37 0 1,1 74,0 a37,37 0 1,1 -74,0"/></defs>
+    <text><textPath href="#fabCircle">立即下载 · 自律蜜蜂 · D-BEE ·</textPath></text>
+  </svg>
+  <span class="core"><svg class="" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="13.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(-28 13.5 15)"/><ellipse cx="34.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(28 34.5 15)"/><path d="M20 19.5Q19 14 15.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28 19.5Q29 14 32.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="15" cy="12" r="1.7" fill="#2E2418"/><circle cx="33" cy="12" r="1.7" fill="#2E2418"/><ellipse cx="24" cy="30" rx="13" ry="11.5" fill="#F2A93B"/><path d="M13.8 30Q24 34.5 34.2 30" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M14.8 35.5Q24 39.5 33.2 35.5" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="19.5" cy="24.5" r="1.9" fill="#2E2418"/><circle cx="28.5" cy="24.5" r="1.9" fill="#2E2418"/><path d="M21.5 27.4Q24 28.9 26.5 27.4" stroke="#2E2418" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M24 41.5l-2.4 4.4h4.8z" fill="#2E2418"/></svg></span>
+</a>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
