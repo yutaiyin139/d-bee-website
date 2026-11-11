@@ -128,7 +128,7 @@ node tools/check-facts.mjs --selftest   # 验证规则本身可满足（应全�
 ```bash
 # 前置：DNS 生效后；两个 conf + 脚本放到服务器同一目录
 sudo bash install-corp-site.sh phase1                       # 80 占位，供 ACME 校验
-sudo CERT_EMAIL=<你的邮箱> bash install-corp-site.sh phase2  # 签独立证书 + 启用 443
+sudo env CERT_EMAIL=<你的邮箱> bash install-corp-site.sh phase2  # 签独立证书 + 启用 443
 sudo bash install-corp-site.sh verify                       # 含主站零影响对照
 # check-facts.mjs 全绿后，才把 app/ 内容同步到 /var/www/d-bee-corp/
 ```

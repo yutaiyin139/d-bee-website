@@ -2,7 +2,8 @@
 # 官网 d-bee.com.cn 站点安装（在服务器 150.158.51.106 上用 sudo 执行）
 #
 #   sudo bash install-corp-site.sh phase1     # 仅 80：ACME 校验 + 503 占位，不暴露任何内容
-#   sudo CERT_EMAIL=you@example.com bash install-corp-site.sh phase2   # 签独立证书 + 启用 80/443
+#   sudo env CERT_EMAIL=you@example.com bash install-corp-site.sh phase2  # 签独立证书 + 启用 80/443
+#                  ↑ 必须用 `sudo env VAR=...`：部分 sudoers 的 env_reset 会剥掉前置变量赋值
 #   sudo bash install-corp-site.sh verify     # 验收（含主站 d-bee.cn 零影响对照）
 #   sudo bash install-corp-site.sh rollback  # 摘掉官网配置，reload
 #
@@ -104,7 +105,7 @@ phase2)
   echo "== 阶段 2：签独立证书 + 启用 80/443 =="
   [ -f "$DIR/nginx.corp.conf" ] || { echo "!! 缺 nginx.corp.conf"; exit 1; }
   check_dns
-  : "${CERT_EMAIL:?请设置 CERT_EMAIL，例如 sudo CERT_EMAIL=you@example.com bash $0 phase2}"
+  : "${CERT_EMAIL:?请设置 CERT_EMAIL，例如 sudo env CERT_EMAIL=you@example.com bash $0 phase2}"
   if [ ! -f /etc/letsencrypt/live/d-bee-corp/fullchain.pem ]; then
     echo "  certbot certonly --webroot（独立证书，不碰 d-bee.cn 证书）"
     certbot certonly --webroot -w "$WWW" \
