@@ -350,7 +350,7 @@ img.bee-logo { display: block; object-fit: contain; flex: none; }
 .benefit-list .ico { width: 17px; height: 17px; margin-top: 4px; color: var(--p-green); }
 .benefit-list-pro .ico { color: var(--accent-deep); }
 
-.plan-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 8px; }
+.plan-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 8px; }
 .plan-card { position: relative; padding: 30px 26px 26px; border-radius: var(--r-l); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow-1); }
 .plan-card-featured { border-color: var(--accent); box-shadow: 0 8px 30px rgba(217,142,31,.16); }
 .plan-badge { position: absolute; top: -12px; right: 22px; padding: 4px 13px; border-radius: var(--r-pill); background: var(--accent); color: #2A1D08; font-size: 12px; font-weight: 800; }
@@ -360,7 +360,7 @@ img.bee-logo { display: block; object-fit: contain; flex: none; }
 .plan-price small { font-size: 14px; color: var(--text-3); }
 /* 完整 priceTag 文案（如 ¥128 / 年（约 ¥10.7/月））逐字展示，字号自适应避免撑破卡片 */
 .plan-price.is-full { display: block; min-height: 46px; }
-.plan-price.is-full span { display: block; font-size: clamp(20px, 2.1vw, 27px); letter-spacing: -.02em; line-height: 1.35; overflow-wrap: anywhere; }
+.plan-price.is-full span { display: block; font-size: clamp(19px, 1.9vw, 24px); letter-spacing: -.02em; line-height: 1.4; text-wrap: balance; overflow-wrap: anywhere; }
 .plan-note { font-size: 13.5px; color: var(--text-2); }
 .plan-features { display: flex; flex-direction: column; gap: 11px; margin: 22px 0; padding-top: 20px; border-top: 1px solid var(--line); }
 .plan-features li { display: flex; gap: 9px; font-size: 13.5px; color: var(--text-2); }
