@@ -94,7 +94,13 @@ node tools/check-facts.mjs --selftest   # 验证规则本身可满足（应全�
 ## Git
 
 - 本地仓库已初始化（首次提交为原型 + 项目骨架，**未改原型任何一行**）。
-- **远程仓库尚未配置**：需要你在 GitHub 上新建一个空仓库（建议 `yutaiyin139/d-bee-website`），
-  然后把地址给我，我来 `git remote add origin … && git push -u origin main`。
-- 仓库 public/private 由你定：官网是公开营销站，代码本身无秘密；但 `FACTS.md` 含主体与备案信息（均为公开信息）。
+- 远程仓库：**`https://github.com/yutaiyin139/d-bee-website.git`**（`origin` / 分支 `main`，2026-11-11 由用户创建空仓库并首次推送）。
+- 后续提交：
+  ```bash
+  git add -A && git commit -m "..."
+  git -c http.sslBackend=openssl push origin main
+  ```
+  Windows 若遇 `schannel: failed to receive handshake` 或代理 `502 CONNECT tunnel failed`，用上面的 openssl 后端；
+  本机**直连 github.com:443 不通，必须走代理**，代理故障属瞬时问题，稍后重试即可。
+- 仓库 public/private 以 GitHub 建库时的设置为准；官网代码无秘密，`FACTS.md` 含主体与备案信息（均为公开信息）。
   主项目「是否转 private」仍属待拍板项，两者不必一致。
