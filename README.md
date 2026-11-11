@@ -82,11 +82,63 @@ node tools/check-facts.mjs --selftest   # 验证规则本身可满足（应全�
 
 ---
 
-## 部署与回滚
+## 部署与端口（与 `d-bee.cn` 同一台服务器）
 
-- 静态托管，**web root = `app/`**；域名 `d-bee.com.cn`（含 `www`），备案号 `-1`。
-- 产品 Web App 在 `d-bee.cn`（`-2`），两域名互做单向链接；过渡期本站下载 CTA 指向 `d-bee.cn` 或预约入口。
-- 回滚 = 恢复上一版本文件；每次发布前打 tag 留痕。
+### 结论：**不需要配置任何新端口**
+
+服务器 `150.158.51.106` 上 nginx 已监听 `80` / `443`（另有 `127.0.0.1:8080` 网关、`127.0.0.1:5432` PG，**均仅回环**）。
+两个域名共用这两个端口，靠 **`server_name` 虚拟主机**分流到不同 `root`：
+
+| 域名 | server 块 | root | 网关 |
+| --- | --- | --- | --- |
+| `d-bee.cn` / `www.d-bee.cn` | 现有主块 | `/var/www/d-bee` | 反代 `127.0.0.1:8080` |
+| `d-bee.com.cn` / `www.d-bee.com.cn` | **新增独立块** | `/var/www/d-bee-corp` | **不反代**（纯静态） |
+
+🔴 **不要**为官网另开 8081 之类的端口：多一个公网端口 = 多一份暴露面与安全组配置，且用户要带端口访问，毫无收益。
+
+### 线上实测现状（2026-11-11，与仓库模板不一致）
+
+- `/etc/nginx/sites-available/d-bee` **只有一个站点**，其 `server_name`（第 25、120 行）把
+  `_ d-bee.cn www.d-bee.cn 150.158.51.106 d-bee.com.cn www.d-bee.com.cn` **全写在同一个块里**；
+  模板里设计的官网独立 server 块**并未上线**。
+- 证书 `/etc/letsencrypt/live/d-bee.cn/` 的 SAN **只有 `d-bee.cn, www.d-bee.cn`**，不含官网域名
+  → 直接访问 `https://d-bee.com.cn` 会证书不匹配。
+- `/var/www/d-bee-corp/` **不存在**；`http://d-bee.com.cn/` 当前落到主块 80 的 `return 404`。
+- DNS：`d-bee.cn` / `www.d-bee.cn` → `150.158.51.106` ✅；**`d-bee.com.cn` / `www.d-bee.com.cn` 无 A 记录**。
+
+### 零影响方案（已备好配置与脚本）
+
+| 文件 | 用途 |
+| --- | --- |
+| `deploy/nginx.corp.acme.conf` | 阶段 1：仅 80，ACME 校验 + 503 占位，**不暴露任何官网内容** |
+| `deploy/nginx.corp.conf` | 阶段 2：80 → 308，443 独立证书 + 静态服务 |
+| `deploy/install-corp-site.sh` | 幂等安装 / 验收 / 回滚 |
+
+核心保证：
+1. **不改 `/etc/nginx/sites-available/d-bee` 任何一行**——只新增配置文件与一个
+   `sites-enabled/00-d-bee-corp` 软链（`00-` 前缀让官网块先加载，从而赢下同名 `server_name` 匹配；
+   `nginx -t` 会有 `conflicting server name ... ignored` 警告，属预期、不影响运行）。
+2. **独立证书** `certbot certonly --webroot --cert-name d-bee-corp`，不碰 `d-bee.cn` 的证书与续期。
+3. **独立目录** `/var/www/d-bee-corp`——主项目 `deploy/deploy.sh` 只写 `/var/www/d-bee`，天然隔离。
+4. 脚本每次 reload 后 `sleep 8` 等 nginx 优雅退出，并**强制验收 `https://d-bee.cn/` = 200、`http://d-bee.cn/` = 308**，任一不符自动回滚。
+5. `rollback` 子命令 = 删软链 + reload，主配置从未被改，回滚零风险。
+
+### 执行顺序（在服务器上）
+
+```bash
+# 前置：DNS 生效后；两个 conf + 脚本放到服务器同一目录
+sudo bash install-corp-site.sh phase1                       # 80 占位，供 ACME 校验
+sudo CERT_EMAIL=<你的邮箱> bash install-corp-site.sh phase2  # 签独立证书 + 启用 443
+sudo bash install-corp-site.sh verify                       # 含主站零影响对照
+# check-facts.mjs 全绿后，才把 app/ 内容同步到 /var/www/d-bee-corp/
+```
+
+> ⚠️ `phase1` 只返回 503 占位；`phase2` 完成后目录仍为空（404）。
+> **内容必须在 `node tools/check-facts.mjs` 全绿后才能上传公开**——当前原型有 8 项合规硬伤。
+
+- 静态托管 **web root = `/var/www/d-bee-corp`**（对应本地 `app/`）；域名 `d-bee.com.cn`（含 `www`），备案号 `-1`。
+- 产品 Web App 在 `d-bee.cn`（`-2`），两域名互做单向链接；过渡期下载 CTA 指向 `d-bee.cn` 或预约入口。
+- 内容回滚 = 恢复上一版本文件；每次发布前打 tag 留痕。
 - 🔴 任一四端上架状态 / 定价 / 备案 / 法务版本变化 → **先改 `FACTS.md` → 再改 HTML → 跑检查 → 才部署**。
 
 ---
