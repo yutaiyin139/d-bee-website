@@ -140,8 +140,16 @@ sudo bash install-corp-site.sh verify                       # 含主站零影响
 # check-facts.mjs 全绿后，才把 app/ 内容同步到 /var/www/d-bee-corp/
 ```
 
-> ⚠️ `phase1` 只返回 503 占位；`phase2` 完成后目录仍为空，`/` 返回 **403**（空目录无索引，属预期，非故障）。
-> **内容必须在 `node tools/check-facts.mjs` 全绿后才能上传公开**——当前原型有 8 项合规硬伤。
+> ⚠️ `phase1` 只返回 503 占位；`phase2` 刚完成时目录为空、`/` 为 **403**（空目录无索引，非故障）。
+>
+> **2026-11-11 14:49 起**已把 `deploy/holding/index.html` 部署为 `/var/www/d-bee-corp/index.html`，
+> 官网 `d-bee.com.cn` / `www` 现均返回 **200**（纯「官网建设中」页：主体全称 + `京ICP备2026075565号-1`
+> + 工信部链接 + 指向 `https://d-bee.cn/` 的链接）。部署方式 = 只写静态文件，**未改 nginx 配置、未 reload**。
+>
+> 🔴 该页**不是官网正式内容**：零产品/定价/上架表述、零外部资源、`noindex`；位于 `deploy/holding/`
+> 而非 `app/`，故 `check-facts.mjs` 不扫描它；正式内容上线时直接覆盖同名 `index.html`。
+> **正式内容必须在 `node tools/check-facts.mjs` 全绿后才能上传公开**——当前原型仍有 8 项合规硬伤
+> （默认检查 2 通过 / 3 失败 / 44 处命中）。
 
 - 静态托管 **web root = `/var/www/d-bee-corp`**（对应本地 `app/`）；域名 `d-bee.com.cn`（含 `www`），备案号 `-1`。
 - 产品 Web App 在 `d-bee.cn`（`-2`），两域名互做单向链接；过渡期下载 CTA 指向 `d-bee.cn` 或预约入口。
