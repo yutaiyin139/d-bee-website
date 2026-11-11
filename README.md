@@ -1,173 +1,171 @@
 # 自律蜜蜂 D-Bee 官网（d-bee.com.cn）
 
-品牌官网 / 下载落地页 / 法务公示站。**纯静态、零构建、零运行时依赖**。
+品牌官网：产品介绍 / 定价公示 / 帮助中心 / 隐私与合规 / 法务入口。
+**源码驱动、零运行时依赖、产物为纯静态 HTML**，nginx 直接托管 `app/`。
 
-> 🔴 **当前状态：原型阶段，不得对外发布。** `app/` 为 2026-11-01 生成的原型原样副本（9 页），
-> 存在 **8 项发布前合规硬伤**（见 `docs` 于主项目的评估文档 §二）。
-> `node tools/check-facts.mjs` **预期为 FAIL** —— 这就是护栏的红验证，整改后必须转绿。
-
----
-
-## 为什么是独立项目（与自律蜜蜂主项目分开）
-
-主项目 `zilv-mifeng`（React18 + Vite5 + TS + 四端 + 22 道护栏）里已经写死这条架构决策：
-
-> `packages/shared/src/constants/index.ts:55`
-> 「**官网不在本仓库，本仓库任何地方都不该出现 -1**」
-
-- **备案号隔离**：`d-bee.com.cn` = `京ICP备2026075565号-1`（本站）；`d-bee.cn` = `-2`（主项目四端）。两号绝不可串，主项目 `deploy/verify-legal.mjs` 会做双向校验。
-- **技术栈隔离**：本站零构建；并入会让 vite/native 共用 `dist/` 的互斥问题扩散，也无谓扩大护栏扫描范围。
-- **发布节奏隔离**：本站改文案即可发；主项目须过 887 项测试 + 四端验收 + 生产实证（铁律 #13）。
+> ✅ **当前状态（2026-11-11）：已完成整体设计与改造，可对外发布。**
+> 10 个页面由 `src/` 统一构建；构建门禁、`check-facts` 15 条规则、selftest 15/15、redtest 15/15 全绿。
+> 原型已归档到 `reference/prototype-2026-11-01/`，**不再部署、不再维护**。
 
 ---
 
-## 目录结构
+## 1. 为什么重写，而不是修 8 处文案
+
+2026-11-01 的原型描述的是「AI 习惯养成 / 番茄专注 / 打卡追踪」，而自律蜜蜂真实产品是
+**「AI 拍照识别饮食热量的记录工具」** —— 是完全不同的产品。因此重写的是产品逻辑、信息架构与内容，
+只沿用原型已被验证的视觉语言（米白奶油底 + 蜂蜜琥珀 `#F2A93B`、卡片体系、蜜蜂 logo、蜂巢纹样）。
+
+原型的 8 项合规硬伤在重写中一并消解（不是逐条打补丁）：
+
+| 原硬伤 | 现在的做法 |
+| --- | --- |
+| 页脚「ICP 备案办理中」 | 共享页脚统一输出 `京ICP备2026075565号-1` + 工信部链接 |
+| 「全平台已上架 / 评分 4.9 / v1.2.0 全平台发布」 | 四端状态由 `PLATFORMS` 单一真源驱动，如实标注「已上线 / 内测中」 |
+| 「应用商店 / 扫码下载」 | 无二维码、无商店链接；唯一 CTA 指向 `https://d-bee.cn/` |
+| 「软著与商标材料齐备」 | 资质真源 `QUALIFICATIONS` 逐项公示「申请中 / 审核中 / 办理中」 |
+| 「订阅制 / 自动续费」 | 定价页统一「一次性预付、不自动续费、暂不售卖」，卡片 `aria-disabled` |
+| 隐私政策自称「与 APP 内版本保持一致」 | 官网**不复制法务全文**，只提供产品内三份权威文档的入口与摘要 |
+| 「本地优先 / 不接统计 SDK」 | `trust.html` 如实写明境内自建 PostgreSQL 云端同步与第三方大模型调用 |
+| 虚构的 changelog / blog / 证言 | 全部删除，改为「上线进展」页公示真实状态，不承诺日期 |
+
+---
+
+## 2. 架构：单一事实源 + 共享布局 + 零依赖构建
 
 ```
 E:\DEV\d-bee-website\
-  ├ app/                     ← 站点根目录（部署时以此为 web root），原型原样、本次零改动
-  │   ├ index.html … 9 页
-  │   └ assets/  css · js · 4 张二维码 SVG（占位图）
-  ├ FACTS.md                 ← 🔴 唯一事实清单：主体 / 备案 / 资质 / 上架状态 / 定价 / 法务
-  ├ tools/check-facts.mjs    ← 发布前护栏（零依赖）
-  ├ .gitignore
-  └ README.md
+├ src/
+│  ├ data/
+│  │   ├ site.mjs          🔴 站点级唯一事实源（主体/备案/域名/导航/四端/三档/资质/法务链接）
+│  │   └ content.mjs       页面级文案（FAQ / 理念 / 进展）
+│  ├ lib/
+│  │   ├ html.mjs          转义、图标系统、蜜蜂 logo 与蜂巢 SVG
+│  │   ├ layout.mjs        全站 head / SEO / JSON-LD / 导航 / 页脚 / CTA / 合规骨架
+│  │   └ components.mjs    可复用组件（定价卡、状态表、FAQ、时间线、界面示意…）
+│  ├ pages/*.mjs           10 个页面，只声明内容与 SEO，外壳全部复用
+│  └ assets/               site.css（设计系统）/ site.js（交互）/ img/bee.svg
+├ tools/
+│  ├ build.mjs             构建器：渲染 app/ + sitemap/robots + 构建期门禁
+│  └ check-facts.mjs       发布前护栏：15 条规则 + selftest + redtest
+├ app/                     ✅ 构建产物（= 部署 web root，随仓库发布）
+├ reference/prototype-2026-11-01/   原型归档，仅供样式参考
+├ deploy/                  双域名 nginx 配置与幂等安装脚本
+├ FACTS.md                 🔴 人读唯一事实清单
+└ package.json             脚本入口（零 dependencies）
 ```
 
-> 若托管平台要求**仓库根目录**就含 `index.html`：把 `app/` 内容上提一级即可
-> （`git mv app/* .` 后删除空的 `app/`），随后同步 `check-facts.mjs` 里的 `APP` 常量。
-> 本次未做此调整，以免动到你刚放入的原型文件。
+**改一处，全站生效**：主体、备案号、导航、四端状态、三档价格、资质状态、法务链接全部只在 `site.mjs` 定义一次；
+页脚、SEO、结构化数据、跳转链接由 `layout.mjs` 统一注入，不存在「9 页各复制一份 header/footer」。
+
+产物仍是纯静态：无 CDN、无 webfont、无第三方 JS、无表单后端，断网也能打开。
 
 ---
 
-## 本地预览
+## 3. 页面清单
 
-```bash
-cd E:/DEV/d-bee-website/app
-python -m http.server 8080
-# 打开 http://localhost:8080/
-```
-
-或用编辑器 Live Server 直接打开 `app/index.html`。
-
----
-
-## 发布前检查
-
-```bash
-node tools/check-facts.mjs              # 检查 app/*.html，有违规 exit 1
-node tools/check-facts.mjs --selftest   # 验证规则本身可满足（应全绿）
-```
-
-检查项：运营主体全称 · `-1` 备案号 · 工信部查询链接 · 禁止 `-2` 串号 · 超前宣传/过期表述禁用词。
-逐条依据见 `FACTS.md`。**全绿是部署的必要条件，不是充分条件**——还需人工核对法务三页与 App 内版本。
-
----
-
-## 8 项待整改（按优先级）
-
-1. **9 页页脚**「ICP 备案办理中」→ 改为 `京ICP备2026075565号-1` + 指向 `beian.miit.gov.cn` 的可点击链接；`about.html:89` 同步。
-2. **删除超前宣传**：「全平台已上架 / 应用商店下载 / 评分 4.9 / v1.2.0 全平台发布 / 鸿蒙全平台」→ 过渡期改「内测中 / 敬请期待」。
-3. `index.html:218`「软件著作权与商标材料齐备」→ 软著申请中、商标未提交，改为如实表述。
-4. `terms.html` 订阅制/自动续费/商店定价 → 对齐「道具直购不自动续费」+ 收款开关全 `false` + 三档真源（¥18 / ¥128 / ¥298）。
-5. `privacy.html` 与 App 内隐私政策逐条对齐；删除「与 APP 内版本保持一致」的不实声明。
-6. 二维码占位图与 `download.html` 商店 URL：上架后换真实链接，过渡期移除「扫码下载」。
-7. 主体名称与统一社会信用代码：与营业执照/软著/商标/备案**逐字核对**后写入 `FACTS.md`。
-8. 公安联网备案：**2026-12-06 前**办理，下证后两端页脚同步；未下证不得展示假号。
-
-另需核对 `changelog.html` 版本时间线、`blog.html` 文章内容是否与真实发版记录一致。
-
-详细逐条依据 → 主项目 `docs/官网原型与工作区治理评估-2026-11-11.md` §二。
-四端真实上架状态 → 主项目 `docs/四端正式上线前置条件与实施序列-2026-11-11.md` §二。
-
----
-
-## 部署与端口（与 `d-bee.cn` 同一台服务器）
-
-### 结论：**不需要配置任何新端口**
-
-服务器 `150.158.51.106` 上 nginx 已监听 `80` / `443`（另有 `127.0.0.1:8080` 网关、`127.0.0.1:5432` PG，**均仅回环**）。
-两个域名共用这两个端口，靠 **`server_name` 虚拟主机**分流到不同 `root`：
-
-| 域名 | server 块 | root | 网关 |
-| --- | --- | --- | --- |
-| `d-bee.cn` / `www.d-bee.cn` | 现有主块 | `/var/www/d-bee` | 反代 `127.0.0.1:8080` |
-| `d-bee.com.cn` / `www.d-bee.com.cn` | **新增独立块** | `/var/www/d-bee-corp` | **不反代**（纯静态） |
-
-🔴 **不要**为官网另开 8081 之类的端口：多一个公网端口 = 多一份暴露面与安全组配置，且用户要带端口访问，毫无收益。
-
-### 线上实测现状（2026-11-11 13:38 基线，与仓库模板不一致）
-
-> 🔴 **状态更新 2026-11-11 14:39：下方「未上线 / 无 A 记录 / 证书不匹配」是执行前基线，现已全部闭环。**
-> 已完成：两条 A 记录生效 → `phase1` → `phase2` → `verify` 三步 EXIT=0。
-> 当前态：`d-bee.com.cn` / `www` 使用**独立证书** `d-bee-corp`（CN=d-bee.com.cn，到期 2027-02-09）；
-> 80 → 308，443 由独立 server 块服务（目录为空故 `/` 返回 **403**）；
-> 主站 `https://d-bee.cn/`=200、`http://d-bee.cn/`=308 未变，主配置文件 md5 与执行前备份完全一致。
-> 下方原文保留作历史基线与「为何需要 `00-` 前缀」的依据，**不再代表当前状态**。
-
-- `/etc/nginx/sites-available/d-bee` **只有一个站点**，其 `server_name`（第 25、120 行）把
-  `_ d-bee.cn www.d-bee.cn 150.158.51.106 d-bee.com.cn www.d-bee.com.cn` **全写在同一个块里**；
-  模板里设计的官网独立 server 块**并未上线**。
-- 证书 `/etc/letsencrypt/live/d-bee.cn/` 的 SAN **只有 `d-bee.cn, www.d-bee.cn`**，不含官网域名
-  → 直接访问 `https://d-bee.com.cn` 会证书不匹配。
-- `/var/www/d-bee-corp/` **不存在**；`http://d-bee.com.cn/` 当前落到主块 80 的 `return 404`。
-- DNS：`d-bee.cn` / `www.d-bee.cn` → `150.158.51.106` ✅；**`d-bee.com.cn` / `www.d-bee.com.cn` 无 A 记录**。
-
-### 零影响方案（已备好配置与脚本）
-
-| 文件 | 用途 |
+| 页面 | 内容 |
 | --- | --- |
-| `deploy/nginx.corp.acme.conf` | 阶段 1：仅 80，ACME 校验 + 503 占位，**不暴露任何官网内容** |
-| `deploy/nginx.corp.conf` | 阶段 2：80 → 308，443 独立证书 + 静态服务 |
-| `deploy/install-corp-site.sh` | 幂等安装 / 验收 / 回滚 |
-
-核心保证：
-1. **不改 `/etc/nginx/sites-available/d-bee` 任何一行**——只新增配置文件与一个
-   `sites-enabled/00-d-bee-corp` 软链（`00-` 前缀让官网块先加载，从而赢下同名 `server_name` 匹配；
-   `nginx -t` 会有 `conflicting server name ... ignored` 警告，属预期、不影响运行）。
-2. **独立证书** `certbot certonly --webroot --cert-name d-bee-corp`，不碰 `d-bee.cn` 的证书与续期。
-3. **独立目录** `/var/www/d-bee-corp`——主项目 `deploy/deploy.sh` 只写 `/var/www/d-bee`，天然隔离。
-4. 脚本每次 reload 后 `sleep 8` 等 nginx 优雅退出，并**强制验收 `https://d-bee.cn/` = 200、`http://d-bee.cn/` = 308**，任一不符自动回滚。
-5. `rollback` 子命令 = 删软链 + reload，主配置从未被改，回滚零风险。
-
-### 执行顺序（在服务器上）
-
-```bash
-# 前置：DNS 生效后；两个 conf + 脚本放到服务器同一目录
-sudo bash install-corp-site.sh phase1                       # 80 占位，供 ACME 校验
-sudo env CERT_EMAIL=<你的邮箱> bash install-corp-site.sh phase2  # 签独立证书 + 启用 443
-sudo bash install-corp-site.sh verify                       # 含主站零影响对照
-# check-facts.mjs 全绿后，才把 app/ 内容同步到 /var/www/d-bee-corp/
-```
-
-> ⚠️ `phase1` 只返回 503 占位；`phase2` 刚完成时目录为空、`/` 为 **403**（空目录无索引，非故障）。
->
-> **2026-11-11 14:49 起**已把 `deploy/holding/index.html` 部署为 `/var/www/d-bee-corp/index.html`，
-> 官网 `d-bee.com.cn` / `www` 现均返回 **200**（纯「官网建设中」页：主体全称 + `京ICP备2026075565号-1`
-> + 工信部链接 + 指向 `https://d-bee.cn/` 的链接）。部署方式 = 只写静态文件，**未改 nginx 配置、未 reload**。
->
-> 🔴 该页**不是官网正式内容**：零产品/定价/上架表述、零外部资源、`noindex`；位于 `deploy/holding/`
-> 而非 `app/`，故 `check-facts.mjs` 不扫描它；正式内容上线时直接覆盖同名 `index.html`。
-> **正式内容必须在 `node tools/check-facts.mjs` 全绿后才能上传公开**——当前原型仍有 8 项合规硬伤
-> （默认检查 2 通过 / 3 失败 / 44 处命中）。
-
-- 静态托管 **web root = `/var/www/d-bee-corp`**（对应本地 `app/`）；域名 `d-bee.com.cn`（含 `www`），备案号 `-1`。
-- 产品 Web App 在 `d-bee.cn`（`-2`），两域名互做单向链接；过渡期下载 CTA 指向 `d-bee.cn` 或预约入口。
-- 内容回滚 = 恢复上一版本文件；每次发布前打 tag 留痕。
-- 🔴 任一四端上架状态 / 定价 / 备案 / 法务版本变化 → **先改 `FACTS.md` → 再改 HTML → 跑检查 → 才部署**。
+| `index.html` | 首屏（真实 slogan + 产品界面示意）、三步流程、能力概览、四项承诺、定价预览、四端状态、FAQ 精选 |
+| `features.html` | 免费版 9 条 / Pro 6 条权益、计次口径、AI 能力与标识、饮水体重运动与报告 |
+| `pricing.html` | 三档明码标价、暂不售卖公告、免费版与蜜糖积分、兑换码、会员 FAQ |
+| `get.html` | Web 版入口、四端状态表、移动端在做什么（无安装包 / 无二维码） |
+| `trust.html` | 数据处理、AI 生成内容标识、资质与备案状态、法务文档入口 |
+| `help.html` | 5 类 20 问，带分类与搜索；FAQPage 结构化数据 |
+| `about.html` | 主体信息、品牌理念、资质状态、联系方式 |
+| `legal.html` | 法务入口页：只链接产品内三份权威文档，不另立版本 |
+| `roadmap.html` | 上线进展时间线，如实公示、不承诺日期 |
+| `404.html` | 未找到页（`noindex`） |
 
 ---
 
-## Git
+## 4. 命令
 
-- 本地仓库已初始化（首次提交为原型 + 项目骨架，**未改原型任何一行**）。
-- 远程仓库：**`https://github.com/yutaiyin139/d-bee-website.git`**（`origin` / 分支 `main`，2026-11-11 由用户创建空仓库并首次推送）。
-- 后续提交：
-  ```bash
-  git add -A && git commit -m "..."
-  git -c http.sslBackend=openssl push origin main
-  ```
-  Windows 若遇 `schannel: failed to receive handshake` 或代理 `502 CONNECT tunnel failed`，用上面的 openssl 后端；
-  本机**直连 github.com:443 不通，必须走代理**，代理故障属瞬时问题，稍后重试即可。
-- 仓库 public/private 以 GitHub 建库时的设置为准；官网代码无秘密，`FACTS.md` 含主体与备案信息（均为公开信息）。
-  主项目「是否转 private」仍属待拍板项，两者不必一致。
+```bash
+npm run build       # 渲染 app/，构建期门禁失败即 exit 1
+npm run check       # 发布前护栏（15 条规则）
+npm run selftest    # 合规样例站点：证明规则集可被满足
+npm run redtest     # 🔴 逐条规则故意违规，验证能判红（不得漏检）
+npm run verify      # build + selftest + redtest + check 一次跑完
+npm run dev         # 本地预览 http://127.0.0.1:8080/
+```
+
+🔴 **新增/修改任一护栏规则后必须同时跑 selftest 与 redtest**（项目铁律）。
+规则匹配「实际使用」而非「标识符出现」：例如「不自动续费」是合规要求，护栏放行；
+「支持自动续费 / 订阅制」判红。
+
+### 构建期门禁（`tools/build.mjs`）
+页面 id/href 唯一 · 站内链接目标存在 · 每页含主体 / `-1` 备案号 / 工信部链接且无 `-2` 串号 ·
+单 `<h1>` · skip-link / canonical / description / lang / viewport 齐备。
+
+### 发布前护栏（`tools/check-facts.mjs`）
+在门禁之上再查：禁用词与错误产品定位 · 肯定式自动续费 · 无真源依据的数字与疗效 ·
+旧原型资产残留 · `site.mjs` 与护栏常量同步 · 导航一致性 · 主 CTA 目标 · 定价三档真源 ·
+法务权威链接 · SEO/无障碍 · 内部链接无死链。
+
+---
+
+## 5. 变更纪律
+
+1. 主项目任一**上架状态 / 定价 / 备案 / 法务版本**变化 → 24h 内同步 `FACTS.md`。
+2. 先改 `FACTS.md` → 再改 `src/data/site.mjs` / `content.mjs` / 对应页面 → `npm run verify` 全绿。
+3. 才部署到 `/var/www/d-bee-corp/`；每次发布前打 tag 留痕。
+4. 回滚 = 恢复上一版 `app/` 文件（纯静态，无需重建服务）。
+
+> 🔴 绝不手工编辑 `app/` 下的 HTML：它会在下次 `npm run build` 时被覆盖。
+
+---
+
+## 6. 双域名部署（与自律蜜蜂 Web 端同机、零影响）
+
+服务器 `150.158.51.106`，**不新增端口**：nginx 已监听 80/443，靠 `server_name` 分流。
+
+| 域名 | root | 证书 | 网关 |
+| --- | --- | --- | --- |
+| `d-bee.cn` / `www`（产品 Web App，`-2`） | `/var/www/d-bee` | `d-bee.cn` | 反代 `127.0.0.1:8080` |
+| `d-bee.com.cn` / `www`（本站，`-1`） | `/var/www/d-bee-corp` | 独立 `d-bee-corp` | **不反代**，纯静态 |
+
+线上配置已于 2026-11-11 14:38 完成：`sites-enabled/00-d-bee-corp` 独立块 + 独立证书（到期 2027-02-09），
+主配置文件 `sites-available/d-bee` **一行未改**。脚本与两阶段 conf 见 `deploy/`，
+含 `nginx -t` → reload → `sleep 8` → 强制验收 `d-bee.cn` 200/308 → 失败自动回滚。
+
+**日常发布只需同步文件**，不改 nginx、不 reload：
+
+```bash
+# 把 app/ 内容同步到 /var/www/d-bee-corp/（保留 index.html 备份以便回滚）
+sudo cp -a app/. /var/www/d-bee-corp/
+```
+
+> 详情页脚备案号、公安联网备案（**12-06 前**，下证前不展示假号）、证书续期注意事项见 `FACTS.md`。
+
+---
+
+## 7. 已知边界（发布后仍需如实维护）
+
+- 移动端（小程序 / Android / iOS）**未正式上架**，官网不提供安装包、二维码或商店链接。
+- 会员收款通道**未开通**，三档价格只做明码标价公示，卡片不可点击。
+- 法务条款以 `d-bee.cn/legal/` 产品内公示版本为准；官网不复制全文。
+- 公安联网备案办理中，`POLICE_BEIAN` 为空时页脚不渲染任何编号。
+- 「内测 / 体验版 / 真机调试」不等于正式上线，状态变化先改 `FACTS.md`。
+
+---
+
+## 8. Git
+
+- 本地仓库 `main`；远程 **`https://github.com/yutaiyin139/d-bee-website.git`**（2026-11-11 由用户创建空仓库）。
+- 与主项目 `github.com/yutaiyin139/d-bee.git` **严格分离**：`-1` / `-2` 备案号不串、发布节奏不耦合。
+
+```bash
+git add -A && git commit -m "..."
+git -c http.sslBackend=openssl push origin main
+```
+
+Windows 若遇 `schannel: failed to receive handshake` 或代理 `502 CONNECT tunnel failed`，用上面的 openssl 后端；
+本机直连 `github.com:443` 不通，必须走代理，代理故障通常瞬时、稍后重试即可。
+
+---
+
+## 9. 相关文档
+
+- 主项目 `docs/四端正式上线前置条件与实施序列-2026-11-11.md` —— 四端状态与依赖
+- 主项目 `docs/官网原型与工作区治理评估-2026-11-11.md` —— 原型 8 项硬伤逐条依据
+- 主项目 `packages/shared/src/constants/index.ts` —— 备案号、定价、主体、法务版本的代码级真源

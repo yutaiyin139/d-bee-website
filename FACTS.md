@@ -6,6 +6,24 @@
 
 ---
 
+## 0. 产品定位与站点架构（2026-11-11 重写）
+
+> 🔴 **重大纠偏**：2026-11-01 原型描述的是「AI 习惯养成 / 番茄专注 / 打卡追踪」，
+> 与真实产品**不是同一个产品**。真实定位：**AI 拍照识别饮食热量的记录工具**，
+> slogan「让每一口都吃得明白」，产品内首屏「拍一张照片，就知道这餐吃了多少热量。」
+> 原型的功能清单、场景、证言、界面截图、公司故事与版本历史**全部作废**，
+> 已归档至 `reference/prototype-2026-11-01/`，不部署、不维护。
+
+- 本站已由「9 张复制粘贴的静态页」改造为 **单一事实源 + 共享布局 + 组件化模板 + 零依赖静态构建**：
+  `FACTS.md`（人读）→ `src/data/site.mjs`（机器真源）→ `src/pages/*` + `src/lib/*`
+  → `node tools/build.mjs` → `app/`（纯静态产物，部署 web root）。
+- **绝不手工编辑 `app/` 下 HTML**，会被下次构建覆盖。
+- 10 个页面：index / features / pricing / get / trust / help / about / legal / roadmap / 404。
+  原型中的 `blog.html`、`changelog.html`、`download.html`、`privacy.html`、`terms.html` 已删除或改名。
+- 站点当前状态：**已完成整改，护栏全绿，可对外发布**。详见 §8。
+
+---
+
 ## 1. 主体与域名
 
 | 字段 | 值 | 状态 |
@@ -81,23 +99,39 @@
 | 字段 | 值 |
 | --- | --- |
 | 真相源 | 主项目 `packages/shared`（App 内隐私政策 / 用户协议 / `LEGAL_UPDATED`） |
-| 本站现状 | `privacy.html` / `terms.html` 自标「生效日期 2026-10-20 · v1.2」，并自称「与 APP 内版本保持一致」→ **实测不一致，属待整改项** |
-| 已知冲突 | 本站称「本地优先存储 / 不接入统计 SDK / 不向第三方共享」；实际有自建 PostgreSQL 云端同步、AI 大模型调用、账号与注销体系 |
-| 纪律 | 🔴 未逐条对齐前，**不得声称与 APP 内版本一致**；主端 `LEGAL_UPDATED` 刷新会让全体老用户重弹同意窗，属产品决策，不可自动改 |
+| 更新日期 | `2026 年 11 月 2 日`（三份文档共用） |
+| 权威地址 | `https://d-bee.cn/legal/privacy/`、`/legal/terms/`、`/legal/disclaimer/` |
+| ✅ 本站现状 | **不再复制法务全文**。`legal.html` 只提供三份权威文档的入口与摘要，`trust.html` 如实说明云端同步与 AI 调用；原「与 APP 内版本保持一致」的不实声明已删除 |
+| 纪律 | 🔴 法务文本单一真相源在产品内；主端 `LEGAL_UPDATED` 刷新会让全体老用户重弹同意窗，属产品决策，不可自动改 |
 
 ---
 
-## 6. 资源与链接
+## 6. 资源与链接（✅ 已整改）
 
-- `app/assets/img/qr-download.svg` / `qr-ios.svg` / `qr-android.svg` / `qr-harmony.svg` 均为**装饰性占位图**，不是可扫描的真实二维码。
-- `app/download.html` 当前**无任何真实商店 URL**。上架后替换为可验证链接；过渡期移除「扫码下载」引导。
-- `changelog.html` 版本时间线、`blog.html` 文章内容须与真实发版记录核对（原型可能含虚构历史）。
+- 4 张二维码占位 SVG、商店跳转、虚构 changelog / blog / 用户证言 / 评分 **已全部移除**，仅存于 `reference/prototype-2026-11-01/`。
+- 全站**零外部资源**：无 CDN、无 webfont、无第三方 JS；仅本地 `site.css` / `site.js` / `bee.svg`。
+- 唯一对外下载类 CTA = `https://d-bee.cn/`（Web 版）。移动端正式上架后，先改本节与 `site.mjs` 的 `PLATFORMS`，再重建发布。
 
 ---
 
 ## 7. 变更纪律
 
 1. 主项目任一上架状态 / 定价 / 备案 / 法务版本变化 → 24h 内同步本文件。
-2. 改 HTML 后必跑 `node tools/check-facts.mjs`，**全绿才可部署**。
-3. 新增或修改护栏规则后**必须红验证**（项目铁律）；可用 `node tools/check-facts.mjs --selftest` 验证规则本身可满足。
-4. 本仓库为纯静态站，回滚 = 恢复上一版本文件；发布前打 tag 留痕。
+2. 顺序：**先改 `FACTS.md` → 再改 `src/data/site.mjs` / `content.mjs` / 页面 → `npm run verify` 全绿 → 才部署**。
+3. `npm run verify` = build（构建期门禁）+ selftest + **redtest** + check（15 条护栏）。
+   新增或修改任一护栏规则后**必须红验证**（项目铁律），`--redtest` 会逐条故意违规验证不漏检。
+4. 部署 = 同步 `app/` 到 `/var/www/d-bee-corp/`；纯静态站回滚 = 恢复上一版文件，发布前打 tag 留痕。
+5. 🔴 绝不手工编辑 `app/` 下 HTML；🔴 绝不为了同步官网而改动主项目 `LEGAL_UPDATED`。
+
+---
+
+## 8. 站点现状（2026-11-11 15:30）
+
+| 项 | 值 |
+| --- | --- |
+| 架构 | 单一事实源 + 共享布局 + 10 页静态产物，零运行时依赖 |
+| 构建 | `npm run build` 门禁全绿（10 页 / 265 KB） |
+| 护栏 | `check-facts` **15 通过 / 0 失败 / 0 处命中**；selftest 15/15；redtest 15/15 |
+| 部署 | `d-bee.com.cn` / `www` 独立证书（到期 2027-02-09），主站 `d-bee.cn` 零影响 |
+| 仍待外部 | 公安联网备案（12-06 前）、移动端正式上架、会员收款开通 |
+| 待人工核对 | 运营主体与营业执照逐字一致、统一社会信用代码（待填，不得编造） |

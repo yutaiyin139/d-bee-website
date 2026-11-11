@@ -5,5 +5,8 @@ Thumbs.db
 .vscode/
 *.log
 
-# 静态站无需构建；若后续引入本地工具链再启用
+# 本站零运行时依赖；app/ 是构建产物但需随仓库发布（nginx 直接托管），故不忽略
 node_modules/
+
+# 本地临时预览 / 调试文件
+__debug*.html
