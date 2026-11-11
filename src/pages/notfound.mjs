@@ -1,5 +1,5 @@
 import { SITE } from '../data/site.mjs';
-import { esc, icon, BEE_SVG } from '../lib/html.mjs';
+import { esc, icon, BEE_ICON } from '../lib/html.mjs';
 import { btn } from '../lib/components.mjs';
 
 export default {
@@ -12,7 +12,7 @@ export default {
   render: () => `
 <section class="nf-wrap">
   <div class="wrap nf-inner">
-    <div class="nf-bee" aria-hidden="true">${BEE_SVG}</div>
+    <div class="nf-bee" aria-hidden="true">${BEE_ICON}</div>
     <span class="kicker">404</span>
     <h1>这一页没找到</h1>
     <p>链接可能换了位置，或者还没写出来。回到首页，或者直接打开 Web 版开始记录。</p>

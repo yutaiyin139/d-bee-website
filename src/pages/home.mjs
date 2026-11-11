@@ -11,10 +11,10 @@ const pairs = HOME_FAQ_KEYS.map(([gid, idx]) => {
 const HIGHLIGHTS = [
   { icon: 'camera', title: '拍照识别', text: '拍下这一餐，AI 辅助填好菜名、份量与热量，可随时手动修改。' },
   { icon: 'layers', title: '怎么记都行', text: '扫条码、写一句话、直接手动录入，都不消耗拍照次数。' },
-  { icon: 'chart', title: '看得见趋势', text: '饮食、饮水、体重与运动汇成图表，报告回看近 7 天。' },
+  { icon: 'chart', title: '看得见趋势', text: '饮食、饮水、体重与运动汇成图表，饮食报告看近 7 天。' },
   { icon: 'sparkles', title: '问问小蜜', text: 'AI 问答不限次数，回答带「AI 生成」标识，仅供参考。' },
   { icon: 'droplet', title: '不止于吃', text: '饮水、体重、运动一起记，把日常放在同一条时间线上。' },
-  { icon: 'shield', title: '永久无广告', text: '不接广告 SDK，无隐藏扣费，基础功能长期免费。' },
+  { icon: 'shield', title: '永久无广告', text: '不接广告 SDK，无隐藏扣费，基础记录功能永久免费。' },
 ];
 
 export default {
@@ -42,7 +42,7 @@ export default {
         ${btn({ label: '了解产品功能', href: 'features.html', variant: 'ghost', size: 'lg' })}
       </div>
       <ul class="hero-points reveal" data-delay="4">
-        <li>${icon('check')}基础记录永久免费</li>
+        <li>${icon('check')}基础记录功能永久免费</li>
         <li>${icon('check')}永久无广告</li>
         <li>${icon('check')}无需安装，浏览器直接用</li>
       </ul>
@@ -60,7 +60,7 @@ export default {
 
 <section class="section section-alt">
   <div class="wrap">
-    ${sectionHead({ kicker: '产品能力', title: '你需要的功能，都在一条记录里', desc: '以下均为产品内已落地的能力，完整清单见「产品功能」。' })}
+    ${sectionHead({ kicker: '产品能力', title: '你需要的功能，都在一条记录里', desc: '以下均为产品内公示的能力，完整清单见「产品功能」。' })}
     <div class="feature-grid">${HIGHLIGHTS.map((h, i) => `<article class="feature-card reveal"${i < 3 ? ` data-delay="${i % 3}"` : ''}>
       <span class="feature-ico">${icon(h.icon)}</span><h3>${esc(h.title)}</h3><p>${esc(h.text)}</p>
     </article>`).join('')}</div>
@@ -72,7 +72,7 @@ ${promisesGrid()}
 
 <section class="section">
   <div class="wrap">
-    ${sectionHead({ kicker: '为什么这样做', title: '少一点打扰，多一点确定', center: true })}
+    ${sectionHead({ kicker: '为什么这样做', title: '把边界写在前面', center: true })}
     <div class="principle-grid">${PRINCIPLES.map((p, i) => `<article class="principle-card reveal" data-delay="${i}">
       <span class="principle-n">${esc(p.n)}</span><h3>${esc(p.title)}</h3><p>${esc(p.text)}</p>
     </article>`).join('')}</div>
@@ -81,10 +81,10 @@ ${promisesGrid()}
 
 <section class="section section-alt" id="pricing-preview">
   <div class="wrap">
-    ${sectionHead({ kicker: '明码标价', title: '价格先说清，买不买以后再说', desc: '三档价格对所有用户一致，不因人定价。当前收款通道未开通，只做公示。' })}
+    ${sectionHead({ kicker: '明码标价', title: '价格先说清，买不买以后再说', desc: '本页价格为统一定价，对所有用户一致，不因人定价。当前收款通道未开通，只做公示。' })}
     ${saleNotice()}
     ${planCards({ compact: true })}
-    <p class="section-note">道具直购为一次性预付，不自动续费、不自动扣款。免费版长期可用；用打卡与活动攒的蜜糖积分也能兑换 Pro 天数。<a href="pricing.html">查看完整定价说明 →</a></p>
+    <p class="section-note">会员计费方式因购买渠道而异，以产品内购买页与用户协议「六、订阅与自动续费说明」为准。蜜糖积分可兑 Pro 天数（100 分兑 1 天、2600 分兑 30 天），在「蜜糖积分」页兑换。<a href="pricing.html">查看完整定价说明 →</a></p>
   </div>
 </section>
 

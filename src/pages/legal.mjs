@@ -1,7 +1,7 @@
-import { SITE } from '../data/site.mjs';
+import { SITE, RENEWAL_NOTE, PERPETUITY_NOTE } from '../data/site.mjs';
 import { pageHero, breadcrumbLd } from '../lib/layout.mjs';
 import { esc, icon } from '../lib/html.mjs';
-import { sectionHead, legalCards, notice } from '../lib/components.mjs';
+import { sectionHead, legalCards, notice, renewalNotice } from '../lib/components.mjs';
 
 export default {
   id: 'legal',
@@ -27,10 +27,12 @@ ${pageHero({ kicker: 'LEGAL', crumb: '法务与协议', title: '条款只有一�
       <div class="rule-head"><span>主题</span><span>摘要</span></div>
       <div class="rule-row"><b>服务性质</b><p>供个人用户记录自身饮食与生活习惯的工具，热量与营养数值为参考估算值，不构成医疗或营养建议。</p></div>
       <div class="rule-row"><b>数据与 AI</b><p>记录保存在境内自建数据库并随账号同步；AI 能力调用第三方大模型，相关内容带「AI 生成」标识，首次使用前单独征得同意。</p></div>
-      <div class="rule-row"><b>会员与费用</b><p>当前收款通道未开通，本站与 Web 版均不收款、不创建订单；道具直购为一次性预付，不自动续费。三档价格见<a href="pricing.html">定价公示</a>。</p></div>
-      <div class="rule-row"><b>账号与注销</b><p>提供账号与注销体系，具体流程与数据处理范围以隐私政策为准。</p></div>
+      <div class="rule-row"><b>会员与费用</b><p>当前收款通道未开通，本站与 Web 版均不收款、不创建订单；会员计费方式因购买渠道而异，以产品内购买页与用户协议「六、订阅与自动续费说明」为准。三档价格见<a href="pricing.html">定价公示</a>。</p></div>
+      <div class="rule-row"><b>账号与注销</b><p>账号支持注销，具体流程与数据处理范围以产品内隐私政策为准。</p></div>
+      <div class="rule-row"><b>服务可用性</b><p>${esc(PERPETUITY_NOTE)}</p></div>
       <div class="rule-row"><b>年龄</b><p>本服务不面向 14 周岁以下的儿童。</p></div>
     </div>
+    ${renewalNotice()}
     <p class="section-note">运营主体：${esc(SITE.subject)} · 本站备案号 <a href="${esc(SITE.icpQuery)}" target="_blank" rel="noopener noreferrer">${esc(SITE.icp)}</a>。资质与数据处理概览见 <a href="trust.html">隐私与合规</a>。</p>
   </div>
 </section>

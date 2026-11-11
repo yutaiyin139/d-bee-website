@@ -128,7 +128,9 @@ b, strong { font-weight: 700; }
 .site-header.is-scrolled { border-bottom-color: var(--line); box-shadow: 0 2px 14px rgba(46,36,24,.04); }
 .header-inner { display: flex; align-items: center; gap: 28px; height: 72px; }
 .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18px; letter-spacing: -.01em; white-space: nowrap; }
-.brand .bee-logo { width: 38px; height: 38px; flex: none; }
+/* 🔴 品牌图标唯一资产 icon-512.png：方形产品 App 图标，统一圆角，不裁成圆形徽章 */
+img.bee-logo { display: block; object-fit: contain; flex: none; }
+.brand .bee-logo { width: 38px; height: 38px; border-radius: 9px; }
 .brand small { margin-left: 7px; font-size: 10px; font-weight: 800; letter-spacing: .16em; color: var(--accent-deep); vertical-align: 2px; }
 .nav { display: flex; align-items: center; gap: 26px; margin-left: auto; }
 .nav a { position: relative; font-size: 15px; font-weight: 600; color: var(--text-2); padding: 6px 0; transition: color .2s var(--ease); }
@@ -241,7 +243,7 @@ b, strong { font-weight: 700; }
   border: 1px solid var(--line); box-shadow: var(--shadow-2);
   animation: beeFloat 5s var(--ease) infinite;
 }
-.float-hex .bee-logo { width: 40px; height: 40px; }
+.float-hex .bee-logo { width: 42px; height: 42px; border-radius: 10px; }
 .float-hex--1 { top: 2%; right: -4%; }
 .float-hex--2 { bottom: 12%; left: -6%; animation-delay: -2.5s; transform: scale(.82); }
 @keyframes beeFloat { 0%,100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-12px) rotate(5deg); } }
@@ -254,8 +256,8 @@ b, strong { font-weight: 700; }
 .app-card-top { display: flex; align-items: center; justify-content: space-between; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
 .app-eyebrow { display: block; font-size: 11.5px; letter-spacing: .08em; color: var(--text-3); margin-bottom: 2px; }
 .app-card-top strong { font-size: 19px; font-weight: 800; }
-.app-avatar { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--accent-faint); }
-.app-avatar .bee-logo { width: 30px; height: 30px; }
+.app-avatar { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; overflow: hidden; background: var(--accent-faint); }
+.app-avatar .bee-logo { width: 100%; height: 100%; border-radius: 10px; }
 .app-energy { display: flex; gap: 18px; align-items: center; padding: 20px 0; }
 .energy-ring {
   flex: none; display: grid; place-items: center; width: 112px; height: 112px; border-radius: 50%;
@@ -356,6 +358,9 @@ b, strong { font-weight: 700; }
 .plan-price { display: flex; align-items: baseline; gap: 8px; margin: 12px 0 4px; }
 .plan-price span { font-size: 40px; font-weight: 900; letter-spacing: -.04em; line-height: 1.1; }
 .plan-price small { font-size: 14px; color: var(--text-3); }
+/* 完整 priceTag 文案（如 ¥128 / 年（约 ¥10.7/月））逐字展示，字号自适应避免撑破卡片 */
+.plan-price.is-full { display: block; min-height: 46px; }
+.plan-price.is-full span { display: block; font-size: clamp(20px, 2.1vw, 27px); letter-spacing: -.02em; line-height: 1.35; overflow-wrap: anywhere; }
 .plan-note { font-size: 13.5px; color: var(--text-2); }
 .plan-features { display: flex; flex-direction: column; gap: 11px; margin: 22px 0; padding-top: 20px; border-top: 1px solid var(--line); }
 .plan-features li { display: flex; gap: 9px; font-size: 13.5px; color: var(--text-2); }
@@ -487,8 +492,8 @@ b, strong { font-weight: 700; }
 .get-hero-card p { max-width: 560px; font-size: 15.5px; color: var(--text-2); }
 .get-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 .get-hero-side { display: grid; place-items: center; gap: 14px; padding: 26px; border-radius: var(--r-l); background: rgba(255,253,247,.7); border: 1px solid rgba(231,220,195,.8); text-align: center; }
-.get-bee { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 50%; background: var(--accent); color: #2A1D08; }
-.get-bee .ico { width: 34px; height: 34px; }
+.get-bee { display: grid; place-items: center; width: 76px; height: 76px; border-radius: 20px; background: var(--accent-faint); }
+.get-bee .bee-logo { width: 76px; height: 76px; border-radius: 20px; }
 .get-hero-side p { font-size: 16px; font-weight: 800; line-height: 1.5; color: var(--text); }
 
 /* ---------- 14. CTA band / footer / toast / 404 ---------- */
@@ -523,7 +528,7 @@ b, strong { font-weight: 700; }
 
 .nf-wrap { display: grid; place-items: center; min-height: 62vh; padding: 70px 0; text-align: center; }
 .nf-bee { display: grid; place-items: center; width: 92px; height: 92px; margin: 0 auto 22px; border-radius: 28px; background: var(--accent-faint); }
-.nf-bee .bee-logo { width: 62px; height: 62px; animation: beeFloat 4s var(--ease) infinite; }
+.nf-bee .bee-logo { width: 66px; height: 66px; border-radius: 17px; animation: beeFloat 4s var(--ease) infinite; }
 .nf-inner h1 { font-size: clamp(30px, 4vw, 42px); font-weight: 900; }
 .nf-inner > p { max-width: 520px; margin: 14px auto 0; color: var(--text-2); }
 .nf-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 28px; }

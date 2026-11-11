@@ -4,7 +4,8 @@
 **源码驱动、零运行时依赖、产物为纯静态 HTML**，nginx 直接托管 `app/`。
 
 > ✅ **当前状态（2026-11-11）：已完成整体设计与改造，可对外发布。**
-> 10 个页面由 `src/` 统一构建；构建门禁、`check-facts` 15 条规则、selftest 15/15、redtest 15/15 全绿。
+> 10 个页面由 `src/` 统一构建；构建门禁、`check-facts` **23 条规则**、selftest 23/23、redtest 23/23 全绿。
+> 2026-11-11 追加：品牌图标全站替换为真实产品 `icon-512.png`，宣传口径逐字对齐主项目真源。
 > 原型已归档到 `reference/prototype-2026-11-01/`，**不再部署、不再维护**。
 
 ---
@@ -13,7 +14,8 @@
 
 2026-11-01 的原型描述的是「AI 习惯养成 / 番茄专注 / 打卡追踪」，而自律蜜蜂真实产品是
 **「AI 拍照识别饮食热量的记录工具」** —— 是完全不同的产品。因此重写的是产品逻辑、信息架构与内容，
-只沿用原型已被验证的视觉语言（米白奶油底 + 蜂蜜琥珀 `#F2A93B`、卡片体系、蜜蜂 logo、蜂巢纹样）。
+只沿用原型已被验证的视觉语言（米白奶油底 + 蜂蜜琥珀 `#F2A93B`、卡片体系、蜂巢纹样）；
+品牌 logo 已改用真实产品 App 图标 `icon-512.png`，原自绘蜜蜂 SVG 全部下线。
 
 原型的 8 项合规硬伤在重写中一并消解（不是逐条打补丁）：
 
@@ -23,9 +25,9 @@
 | 「全平台已上架 / 评分 4.9 / v1.2.0 全平台发布」 | 四端状态由 `PLATFORMS` 单一真源驱动，如实标注「已上线 / 内测中」 |
 | 「应用商店 / 扫码下载」 | 无二维码、无商店链接；唯一 CTA 指向 `https://d-bee.cn/` |
 | 「软著与商标材料齐备」 | 资质真源 `QUALIFICATIONS` 逐项公示「申请中 / 审核中 / 办理中」 |
-| 「订阅制 / 自动续费」 | 定价页统一「一次性预付、不自动续费、暂不售卖」，卡片 `aria-disabled` |
+| 「订阅制 / 自动续费」 | 定价页统一「暂不售卖」，计费方式按 `RENEWAL_NOTE` 指向产品内用户协议「六、订阅与自动续费说明」，卡片 `aria-disabled` |
 | 隐私政策自称「与 APP 内版本保持一致」 | 官网**不复制法务全文**，只提供产品内三份权威文档的入口与摘要 |
-| 「本地优先 / 不接统计 SDK」 | `trust.html` 如实写明境内自建 PostgreSQL 云端同步与第三方大模型调用 |
+| 「本地优先 / 不接统计 SDK」 | `trust.html` 如实写明境内自建数据库云端同步，并点名 DeepSeek / 阿里云百炼 Qwen-VL |
 | 虚构的 changelog / blog / 证言 | 全部删除，改为「上线进展」页公示真实状态，不承诺日期 |
 
 ---
@@ -39,14 +41,14 @@ E:\DEV\d-bee-website\
 │  │   ├ site.mjs          🔴 站点级唯一事实源（主体/备案/域名/导航/四端/三档/资质/法务链接）
 │  │   └ content.mjs       页面级文案（FAQ / 理念 / 进展）
 │  ├ lib/
-│  │   ├ html.mjs          转义、图标系统、蜜蜂 logo 与蜂巢 SVG
+│  │   ├ html.mjs          转义、线性图标系统、🔴 品牌 App 图标（icon-512.png）、蜂巢 SVG
 │  │   ├ layout.mjs        全站 head / SEO / JSON-LD / 导航 / 页脚 / CTA / 合规骨架
 │  │   └ components.mjs    可复用组件（定价卡、状态表、FAQ、时间线、界面示意…）
 │  ├ pages/*.mjs           10 个页面，只声明内容与 SEO，外壳全部复用
-│  └ assets/               site.css（设计系统）/ site.js（交互）/ img/bee.svg
+│  └ assets/               site.css（设计系统）/ site.js / img/icon-512.png 及派生尺寸
 ├ tools/
-│  ├ build.mjs             构建器：渲染 app/ + sitemap/robots + 构建期门禁
-│  └ check-facts.mjs       发布前护栏：15 条规则 + selftest + redtest
+│  ├ build.mjs             构建器：渲染 app/ + sitemap/robots + 构建期门禁（含图标唯一性）
+│  └ check-facts.mjs       发布前护栏：23 条规则 + selftest + redtest + 源码级扫描
 ├ app/                     ✅ 构建产物（= 部署 web root，随仓库发布）
 ├ reference/prototype-2026-11-01/   原型归档，仅供样式参考
 ├ deploy/                  双域名 nginx 配置与幂等安装脚本
@@ -76,13 +78,22 @@ E:\DEV\d-bee-website\
 | `roadmap.html` | 上线进展时间线，如实公示、不承诺日期 |
 | `404.html` | 未找到页（`noindex`） |
 
+### 品牌图标资产（2026-11-11 全站替换）
+
+唯一源图 `src/assets/img/icon-512.png`，来自
+`E:/2026新起点/小宝/dbee/D-Bee图标备份/icon-512.png`（512×512 真实产品 App 图标，原样复制）。
+`favicon.png`(32) / `apple-touch-icon.png`(180) / `icon-192.png`(192) 均由它等比缩放派生。
+构建时 `app/assets/img/` 先清空再拷，旧自绘 `bee.svg` 不会残留；
+`html.mjs` 的 `brandIcon()` / `BEE_ICON` 是全站唯一入口，favicon、apple-touch、og:image、
+JSON-LD `Organization.logo` 与 header / footer / 示意卡 / 404 全部指向同一资产。
+
 ---
 
 ## 4. 命令
 
 ```bash
 npm run build       # 渲染 app/，构建期门禁失败即 exit 1
-npm run check       # 发布前护栏（15 条规则）
+npm run check       # 发布前护栏（23 条规则，扫 10 页 HTML + 16 个源文件）
 npm run selftest    # 合规样例站点：证明规则集可被满足
 npm run redtest     # 🔴 逐条规则故意违规，验证能判红（不得漏检）
 npm run verify      # build + selftest + redtest + check 一次跑完
@@ -90,16 +101,22 @@ npm run dev         # 本地预览 http://127.0.0.1:8080/
 ```
 
 🔴 **新增/修改任一护栏规则后必须同时跑 selftest 与 redtest**（项目铁律）。
-规则匹配「实际使用」而非「标识符出现」：例如「不自动续费」是合规要求，护栏放行；
-「支持自动续费 / 订阅制」判红。
+规则匹配「实际使用」而非「标识符出现」：例如「不自动续费」放行、「订阅制」判红；
+源码级断言一律在 `stripComments()` 之后做，注释里提到禁用词不算违规。
+`membership-truth` / `pricing-language-truth` 把主项目 `membership.ts` 的 15 条权益文案、
+`rules/index.ts` 的三档档位名与 `priceTag()`、`PricingSheet.tsx` 的两段原文**钉成逐字快照**，
+主项目改口径而官网没跟上会直接判红。
 
 ### 构建期门禁（`tools/build.mjs`）
 页面 id/href 唯一 · 站内链接目标存在 · 每页含主体 / `-1` 备案号 / 工信部链接且无 `-2` 串号 ·
-单 `<h1>` · skip-link / canonical / description / lang / viewport 齐备。
+单 `<h1>` · skip-link / canonical / description / lang / viewport 齐备 ·
+**每页含 favicon / apple-touch / og:image / `icon-512.png` 品牌图标，且无 `bee.svg` 残留**。
 
 ### 发布前护栏（`tools/check-facts.mjs`）
 在门禁之上再查：禁用词与错误产品定位 · 肯定式自动续费 · 无真源依据的数字与疗效 ·
-旧原型资产残留 · `site.mjs` 与护栏常量同步 · 导航一致性 · 主 CTA 目标 · 定价三档真源 ·
+旧原型资产残留 · **品牌图标唯一性** · **自造/绝对化宣传口径（HTML + 源码）** ·
+**分渠道续费口径** · **权益与定价逐字快照** · **永久性表述的免责限定** · **第三方 AI 供应商点名** ·
+`site.mjs` 与护栏常量同步 · 导航一致性 · 主 CTA 目标 · 定价三档真源 ·
 法务权威链接 · SEO/无障碍 · 内部链接无死链。
 
 ---
@@ -169,3 +186,7 @@ Windows 若遇 `schannel: failed to receive handshake` 或代理 `502 CONNECT tu
 - 主项目 `docs/四端正式上线前置条件与实施序列-2026-11-11.md` —— 四端状态与依赖
 - 主项目 `docs/官网原型与工作区治理评估-2026-11-11.md` —— 原型 8 项硬伤逐条依据
 - 主项目 `packages/shared/src/constants/index.ts` —— 备案号、定价、主体、法务版本的代码级真源
+- 主项目 `packages/shared/src/rules/index.ts` —— 三档档位名（`PRODUCTS`）与 `priceTag()`
+- 主项目 `src/content/membership.ts` —— 免费版 9 条 / Pro 6 条权益逐字真源
+- 主项目 `src/pages/PricingSheet.tsx` —— 「会员是可选的」notice 与统一定价声明
+- 主项目 `src/content/legal.ts` —— §六 分渠道计费、§五 服务可用性、AI 供应商与标识条款

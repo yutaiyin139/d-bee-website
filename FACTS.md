@@ -2,7 +2,9 @@
 
 > 🔴 **本文件是本仓库所有对外表述的唯一真相源。** 改页面前先改这里，改完页面再跑 `node tools/check-facts.mjs`。
 > 任一字段变化（上架状态 / 定价 / 备案 / 法务版本）→ **先更新本文件 → 再改 HTML → 再跑检查 → 最后才部署**。
-> 数据来源：主项目 `zilv-mifeng` 的 `packages/shared/src/constants/index.ts` 与 `docs/四端正式上线前置条件与实施序列-2026-11-11.md`。核对日期 **2026-11-11**。
+> 数据来源：主项目 `zilv-mifeng` 的 `packages/shared/src/constants/index.ts`、`packages/shared/src/rules/index.ts`、
+> `src/content/membership.ts`、`src/pages/PricingSheet.tsx`、`src/content/legal.ts`，
+> 以及 `docs/四端正式上线前置条件与实施序列-2026-11-11.md`。核对日期 **2026-11-11**。
 
 ---
 
@@ -79,18 +81,26 @@
 
 ## 4. 定价与售卖模型
 
-| 档位 | 价格 | 商品 ID |
+| 档位（逐字真源：`rules/index.ts` PRODUCTS） | 价格文案（逐字真源：`priceTag()`） | 商品 ID |
 | --- | --- | --- |
-| Pro 月卡 | **¥18** | `dbee_pro_monthly` |
-| Pro 年卡 | **¥128** | `dbee_pro_yearly` |
-| 终身 | **¥298** | `dbee_lifetime` |
+| **月订阅** | **¥18 / 月** | `dbee_pro_monthly` |
+| **年订阅** | **¥128 / 年（约 ¥10.7/月）** | `dbee_pro_yearly` |
+| **终身买断** | **¥298 永久** | `dbee_lifetime` |
 
-> 真源：主项目 `packages/shared/src/constants/index.ts:86-95`。**最终以支付平台商品为准**，改价须四端同步。
+> 真源：主项目 `packages/shared/src/constants/index.ts:86-95`（`PRICE_*` / `PRODUCT_IDS`）、
+> `packages/shared/src/rules/index.ts:51-92`（`PRODUCTS` / `priceTag`）。**最终以支付平台商品为准**，改价须四端同步。
+> 🔴 官网禁止自造档位名（「Pro 月卡 / Pro 年卡 / 终身 / 一次买断」）、自造徽章或改写价格格式。
 
 - 收款开关 `D_BEE_XPAY_ENABLED`(mini) / `D_BEE_APPPAY_ENABLED`(Android + Web 引导) **均默认 `false`** → **当前不售卖会员**。
-- 🔴 **道具直购不自动续费**；禁止「订阅制 / 自动续费 / 以应用商店公示价格为准」等描述。
+- 🔴 **计费方式因购买渠道而异**（用户协议「六、订阅与自动续费说明」）：iOS App 内购按月/按年为**自动续期订阅**，
+  其余已开放渠道为**一次性预付、不自动续费**。官网**绝不**写「全渠道都不自动续费」，
+  统一用 `site.mjs` 的 `RENEWAL_NOTE` 指向产品内购买页与用户协议；也绝不描述「现有购买方式」（收款未开通）。
 - Web 定案：暂不收费、恒零收款入口、不为收费办 ICP 经营许可证。
 - 门控与实装必须同批：只展示价格却必然支付失败 ＝《广告法》第 4 条虚假宣传。
+- 🔴 **权益与定价逐字快照**：`check-facts.mjs` 的 `membership-truth` / `pricing-language-truth`
+  把 `membership.ts` 15 条权益、`PricingSheet.tsx` 两段原文钉成常量，官网改写即判红。
+- 凡写「永久 / 长期可用」必须同时写 `不承诺服务不中断、无差错`（`legal.ts` 五、服务可用性），
+  由全站页脚统一承载，`perpetuity-qualifier` 逐页校验。
 
 ---
 
@@ -109,7 +119,10 @@
 ## 6. 资源与链接（✅ 已整改）
 
 - 4 张二维码占位 SVG、商店跳转、虚构 changelog / blog / 用户证言 / 评分 **已全部移除**，仅存于 `reference/prototype-2026-11-01/`。
-- 全站**零外部资源**：无 CDN、无 webfont、无第三方 JS；仅本地 `site.css` / `site.js` / `bee.svg`。
+- 全站**零外部资源**：无 CDN、无 webfont、无第三方 JS；仅本地 `site.css` / `site.js` 与 `assets/img/` 图标。
+- 🔴 **品牌图标唯一资产 `assets/img/icon-512.png`**（真实产品 App 图标，512×512，原样复制自
+  `E:/2026新起点/小宝/dbee/D-Bee图标备份/icon-512.png`）；`favicon.png`(32) / `apple-touch-icon.png`(180) /
+  `icon-192.png`(192) 均由它派生。旧自绘 `bee.svg` 已删除，构建时清空产物 `img/` 目录防残留。
 - 唯一对外下载类 CTA = `https://d-bee.cn/`（Web 版）。移动端正式上架后，先改本节与 `site.mjs` 的 `PLATFORMS`，再重建发布。
 
 ---
@@ -118,20 +131,26 @@
 
 1. 主项目任一上架状态 / 定价 / 备案 / 法务版本变化 → 24h 内同步本文件。
 2. 顺序：**先改 `FACTS.md` → 再改 `src/data/site.mjs` / `content.mjs` / 页面 → `npm run verify` 全绿 → 才部署**。
-3. `npm run verify` = build（构建期门禁）+ selftest + **redtest** + check（15 条护栏）。
+3. `npm run verify` = build（构建期门禁）+ selftest + **redtest** + check（**23 条护栏**，扫 10 页 HTML + 16 个源文件）。
    新增或修改任一护栏规则后**必须红验证**（项目铁律），`--redtest` 会逐条故意违规验证不漏检。
-4. 部署 = 同步 `app/` 到 `/var/www/d-bee-corp/`；纯静态站回滚 = 恢复上一版文件，发布前打 tag 留痕。
-5. 🔴 绝不手工编辑 `app/` 下 HTML；🔴 绝不为了同步官网而改动主项目 `LEGAL_UPDATED`。
+   🔴 源码级断言在 `stripComments()` 后的代码上做；口径真源变化后必须同步更新 `check-facts.mjs` 里的逐字快照。
+4. 🔴 **宣传口径严格对齐主项目**：档位名 / 价格文案 / 权益清单 / 计费方式 / 服务可用性 / AI 供应商 /
+   账号注销，一律引用主项目代码级真源，不改写、不润色、不自造绝对化承诺。
+   禁用清单见 `check-facts.mjs` 的 `BANNED_COPY`（HTML 与源码双向生效）。
+5. 部署 = 同步 `app/` 到 `/var/www/d-bee-corp/`；纯静态站回滚 = 恢复上一版文件，发布前打 tag 留痕。
+6. 🔴 绝不手工编辑 `app/` 下 HTML；🔴 绝不为了同步官网而改动主项目 `LEGAL_UPDATED`。
 
 ---
 
-## 8. 站点现状（2026-11-11 15:30）
+## 8. 站点现状（2026-11-11 · 图标替换 + 口径严格对齐后）
 
 | 项 | 值 |
 | --- | --- |
 | 架构 | 单一事实源 + 共享布局 + 10 页静态产物，零运行时依赖 |
-| 构建 | `npm run build` 门禁全绿（10 页 / 265 KB） |
-| 护栏 | `check-facts` **15 通过 / 0 失败 / 0 处命中**；selftest 15/15；redtest 15/15 |
+| 构建 | `npm run build` 门禁全绿（10 页 / 247.5 KB HTML + 4 个 PNG 图标资产） |
+| 护栏 | `check-facts` **23 通过 / 0 失败 / 0 处命中**；selftest 23/23；redtest 23/23；扫 10 页 HTML + 16 源文件 |
+| 品牌图标 | 全站唯一 `icon-512.png`（真实产品 App 图标），favicon / apple-touch / og:image / JSON-LD logo 同源；`bee.svg` 已删除 |
+| 口径 | 档位名 / priceTag / 15 条权益 / 两段定价原文逐字对齐主项目；续费口径分渠道；永久性表述带免责限定 |
 | 部署 | `d-bee.com.cn` / `www` 独立证书（到期 2027-02-09），主站 `d-bee.cn` 零影响 |
 | 仍待外部 | 公安联网备案（12-06 前）、移动端正式上架、会员收款开通 |
 | 待人工核对 | 运营主体与营业执照逐字一致、统一社会信用代码（待填，不得编造） |

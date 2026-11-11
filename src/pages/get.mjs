@@ -1,6 +1,6 @@
 import { SITE } from '../data/site.mjs';
 import { pageHero, breadcrumbLd } from '../lib/layout.mjs';
-import { esc, icon } from '../lib/html.mjs';
+import { esc, icon, brandIcon } from '../lib/html.mjs';
 import { sectionHead, platformTable, btn, notice } from '../lib/components.mjs';
 
 export default {
@@ -26,7 +26,7 @@ ${pageHero({ kicker: 'GET STARTED', crumb: '获取方式', title: '现在，<em>
         </div>
       </div>
       <div class="get-hero-side" aria-hidden="true">
-        <span class="get-bee">${icon('sparkles')}</span>
+        <span class="get-bee">${brandIcon('bee-logo', 76)}</span>
         <p>浏览器<br>打开即用</p>
       </div>
     </div>

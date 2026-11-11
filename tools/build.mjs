@@ -12,6 +12,8 @@
  *   2. 每页的站内链接目标都存在
  *   3. 每页都含运营主体、-1 备案号、工信部链接，且不含 -2 串号
  *   4. 每页有且仅有一个 h1、有 canonical / description / lang / viewport
+ *   5. 每页均引用真实产品图标 icon-512.png（favicon / apple-touch / og:image / logo），
+ *      且旧自绘 bee.svg 零残留；产物 img/ 目录先清空再拷
  * 发布前另跑 node tools/check-facts.mjs（内容合规）与 --selftest / --redtest（护栏自检）。
  */
 import { readdirSync, readFileSync, writeFileSync, mkdirSync, rmSync, existsSync, copyFileSync, statSync } from 'node:fs';
@@ -78,10 +80,17 @@ for (const p of pages) {
 console.log(`已生成 HTML：${outputs.size} 个`);
 
 /* ---------- 3. 静态资源 ---------- */
+// 🔴 先清空产物 img 目录：旧版自绘 bee.svg 等资产必须彻底下线，不能随构建残留
+rmSync(join(APP, 'assets/img'), { recursive: true, force: true });
+mkdirSync(join(APP, 'assets/img'), { recursive: true });
+
 for (const [from, to] of [
   ['assets/site.css', 'assets/css/site.css'],
   ['assets/site.js', 'assets/js/site.js'],
-  ['assets/img/bee.svg', 'assets/img/bee.svg'],
+  ['assets/img/icon-512.png', 'assets/img/icon-512.png'],
+  ['assets/img/favicon.png', 'assets/img/favicon.png'],
+  ['assets/img/apple-touch-icon.png', 'assets/img/apple-touch-icon.png'],
+  ['assets/img/icon-192.png', 'assets/img/icon-192.png'],
 ]) {
   const src = join(SRC, from), dst = join(APP, to);
   if (!existsSync(src)) { fail(`缺少资源：src/${from}`); continue; }
@@ -115,6 +124,17 @@ for (const [name, html] of outputs) {
   for (const needle of ['rel="canonical"', 'name="description"', 'lang="zh-CN"', 'name="viewport"', 'class="skip-link"']) {
     if (!html.includes(needle)) fail(`${name} 缺 ${needle}`);
   }
+
+  // 5.2.1 品牌图标：全站唯一资产 icon-512.png，旧自绘 bee.svg 零残留
+  for (const needle of [
+    'href="assets/img/favicon.png"',
+    'href="assets/img/apple-touch-icon.png"',
+    'property="og:image"',
+    'src="assets/img/icon-512.png"',
+  ]) {
+    if (!html.includes(needle)) fail(`${name} 缺真实产品图标引用：${needle}`);
+  }
+  if (/bee\.svg|<svg[^>]+class="bee-logo"/.test(html)) fail(`${name} 残留旧自绘蜜蜂图标`);
 
   // 5.3 站内链接完整性
   for (const m of html.matchAll(/href="([^"]+)"/g)) {

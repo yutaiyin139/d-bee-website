@@ -1,12 +1,16 @@
 /** 可复用 UI 组件。所有组件只吃 src/data/* 的数据，不自带事实。 */
-import { SITE, PLANS, FREE_ITEMS, PRO_ITEMS, QUOTA_RULES, STEPS, PROMISES, AI_FACTS, QUALIFICATIONS, PLATFORMS, LEGAL_DOCS, SALE_NOTICE } from '../data/site.mjs';
-import { esc, attrs, icon, BEE_SVG } from './html.mjs';
+import {
+  SITE, PLANS, FREE_ITEMS, PRO_ITEMS, QUOTA_RULES, STEPS, PROMISES,
+  AI_FACTS, QUALIFICATIONS, PLATFORMS, LEGAL_DOCS, SALE_NOTICE,
+  RENEWAL_NOTE, PERPETUITY_NOTE, PRICING_NOTICE, UNIFIED_PRICE_NOTE,
+} from '../data/site.mjs';
+import { esc, attrs, icon, BEE_ICON, brandIcon } from './html.mjs';
 
 export function sectionHead({ kicker, title, desc, center = false, light = false }) {
   return `<div class="sec-head${center ? ' sec-head-center' : ''}${light ? ' sec-head-light' : ''}">
     ${kicker ? `<span class="kicker${light ? ' kicker-light' : ''}">${esc(kicker)}</span>` : ''}
     <h2>${title}</h2>
-    ${desc ? `<p class="sec-desc">${desc}</p>` : ''}
+    ${desc ? `<p class="sec-desc">${esc(desc)}</p>` : ''}
   </div>`;
 }
 
@@ -36,15 +40,32 @@ export const saleNotice = () => notice({
   iconName: 'info',
 });
 
+/** 分渠道计费口径：全站唯一出处，避免各页各自改写造成与用户协议冲突 */
+export const renewalNotice = () => notice({
+  title: '计费方式以产品内条款为准',
+  text: RENEWAL_NOTE,
+  tone: 'soft',
+  iconName: 'book',
+});
+
+/** 产品内公开定价页的两段原文（PricingSheet.tsx），官网逐字展示 */
+export const pricingNotice = () => notice({
+  title: '会员是可选的',
+  text: PRICING_NOTICE,
+  tone: 'soft',
+  iconName: 'shield',
+});
+export const unifiedPriceNote = () => `<p class="section-note">${esc(UNIFIED_PRICE_NOTE)}</p>`;
+
 /** 首页视觉：用 HTML/CSS 绘制的产品界面示意（非截图），明确标注「界面示意」 */
 export function homeVisual() {
   return `<div class="hero-visual reveal" data-delay="2">
-    <span class="float-hex float-hex--1" aria-hidden="true">${BEE_SVG}</span>
-    <span class="float-hex float-hex--2" aria-hidden="true">${BEE_SVG}</span>
+    <span class="float-hex float-hex--1" aria-hidden="true">${BEE_ICON}</span>
+    <span class="float-hex float-hex--2" aria-hidden="true">${BEE_ICON}</span>
     <div class="app-card" role="img" aria-label="产品界面示意：今日饮食记录，含热量进度与三餐条目，AI 识别条目带 AI 生成标识">
       <div class="app-card-top">
         <div><span class="app-eyebrow">今日 · 周三</span><strong>饮食记录</strong></div>
-        <span class="app-avatar" aria-hidden="true">${BEE_SVG}</span>
+        <span class="app-avatar" aria-hidden="true">${brandIcon('bee-logo', 40)}</span>
       </div>
       <div class="app-energy">
         <div class="energy-ring"><span>1,240<small>/ 1,800 kcal</small></span></div>
@@ -77,20 +98,20 @@ export function stepsGrid() {
 /** 承诺四宫格（深色反差块） */
 export function promisesGrid() {
   return `<section class="trust-wrap"><div class="wrap">
-    ${sectionHead({ kicker: '我们把边界写在前面', title: '不打扰，也不含糊', desc: '这些不是宣传语，是产品里已经落地的规则。', light: true, center: true })}
+    ${sectionHead({ kicker: '我们把边界写在前面', title: '不打扰，也不含糊', desc: '以下表述均来自产品内公示的规则与条款。', light: true, center: true })}
     <div class="promise-grid">${PROMISES.map((p) => `<article class="promise-card reveal">
       <span class="promise-ico">${icon(p.icon)}</span><h3>${esc(p.title)}</h3><p>${esc(p.text)}</p>
     </article>`).join('')}</div>
-    <p class="trust-foot">AI 生成内容均带显式标识；热量与营养数值为参考估算值，不构成医疗或营养建议。</p>
+    <p class="trust-foot">按《人工智能生成合成内容标识办法》及产品内隐私政策对 AI 内容作标识；热量与营养数值为参考估算值，不构成医疗或营养建议。${esc(PERPETUITY_NOTE)}</p>
   </div></section>`;
 }
 
-/** 免费 / Pro 权益对比 */
+/** 免费版 / Pro 权益逐字清单（数据源 = site.mjs，与主项目 membership.ts 逐字一致） */
 export function benefitsGrid() {
   const list = (items, cls) => `<ul class="benefit-list ${cls}">${items.map((t) => `<li>${icon('check')}<span>${esc(t)}</span></li>`).join('')}</ul>`;
   return `<div class="benefit-grid">
     <article class="benefit-col reveal">
-      <div class="benefit-head"><span class="kicker">FREE</span><h3>免费版</h3><p>长期可用，不用付费也能完整记录</p></div>
+      <div class="benefit-head"><span class="kicker">FREE</span><h3>免费版</h3><p>基础记录功能永久免费，不用付费也能完整记录</p></div>
       ${list(FREE_ITEMS, '')}
       <a class="text-link" href="features.html">查看全部功能 ${icon('arrow', 'ico-sm')}</a>
     </article>
@@ -102,14 +123,17 @@ export function benefitsGrid() {
   </div>`;
 }
 
-/** 三档定价卡（不可购买：用 div 而非 button/a，明确 aria-disabled） */
+/**
+ * 三档定价卡（不可购买：用 div 而非 button/a，明确 aria-disabled）。
+ * 🔴 档位名与价格文案逐字来自 rules/index.ts 的 PRODUCTS + priceTag()，
+ *    不在卡片里截断/改写，也不自造徽章（仅年订阅保留真源的「最划算」）。
+ */
 export function planCards({ compact = false } = {}) {
-  return `<div class="plan-grid${compact ? ' plan-grid-compact' : ''}">${PLANS.map((p) => `<article class="plan-card${p.badge === '最划算' ? ' plan-card-featured' : ''}" data-plan-id="${esc(p.id)}" aria-disabled="true">
+  return `<div class="plan-grid${compact ? ' plan-grid-compact' : ''}">${PLANS.map((p) => `<article class="plan-card${p.badge === '最划算' ? ' plan-card-featured' : ''}" data-plan-id="${esc(p.id)}" data-product-id="${esc(p.key)}" aria-disabled="true">
     ${p.badge ? `<span class="plan-badge">${esc(p.badge)}</span>` : ''}
     <h3>${esc(p.name)}</h3>
-    <div class="plan-price"><span>${esc(p.price)}</span><small>/ ${esc(p.period)}</small></div>
+    <div class="plan-price is-full"><span>${esc(p.priceTag)}</span></div>
     <p class="plan-note">${esc(p.note)}</p>
-    ${!compact ? `<ul class="plan-features">${PRO_ITEMS.slice(0, 4).map((t) => `<li>${icon('check')}<span>${esc(t)}</span></li>`).join('')}</ul>` : ''}
     <div class="plan-state">暂不售卖</div>
   </article>`).join('')}</div>`;
 }
@@ -145,7 +169,7 @@ export function faqSection(groups, { searchable = true, limit = null } = {}) {
        </div>`
     : '';
   const search = searchable
-    ? `<div class="faq-search">${icon('search')}<input type="search" id="faqSearch" placeholder="搜索问题，例如：额度、自动续费、数据" aria-label="搜索帮助问题" autocomplete="off"></div>`
+    ? `<div class="faq-search">${icon('search')}<input type="search" id="faqSearch" placeholder="搜索问题，例如：额度、计费、数据" aria-label="搜索帮助问题" autocomplete="off"></div>`
     : '';
   return `<div class="faq-wrap" data-faq>
     ${tabs}${search}
@@ -164,12 +188,12 @@ export function qualificationList() {
   </div>`).join('')}</div>`;
 }
 
-/** AI 能力说明 */
+/** AI 能力说明（第三方供应商与标识口径以产品内隐私政策为准） */
 export function aiFactsGrid() {
   return `<div class="ai-grid">${AI_FACTS.map((a) => `<article class="ai-card reveal">
     <span class="ai-ico">${icon('sparkles')}</span><h3>${esc(a.name)}</h3><p>${esc(a.detail)}</p>
   </article>`).join('')}</div>
-  <div class="ai-disclaimer">${icon('info')}<p>以上能力的结果由大模型自动生成，属于人工智能生成合成内容，可能存在误差，仅供辅助参考，不构成医疗或营养建议，请自行核对。产品内对 AI 回答、解读与识别条目均标注「AI 生成」，首次使用 AI 功能前会单独征得同意；拒绝后仍可使用非 AI 功能。</p></div>`;
+  <div class="ai-disclaimer">${icon('info')}<p>以上能力的结果由大模型自动生成，属于人工智能生成合成内容，可能存在误差，仅供辅助参考，不构成医疗或营养建议，请自行核对。产品内按《人工智能生成合成内容标识办法》与隐私政策「AI 生成内容标识说明」对 AI 回答、解读与识别条目标注「AI 生成」；首次使用 AI 功能前会单独征得同意，拒绝后仍可使用非 AI 功能。第三方服务、处理的信息与用途以产品内隐私政策公示版本为准。</p></div>`;
 }
 
 /** 法务文档入口卡 */

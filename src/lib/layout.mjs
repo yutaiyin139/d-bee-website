@@ -3,7 +3,7 @@
  * 消除原型「9 页各复制一份 header/footer」的问题。
  */
 import { SITE, NAV, FOOTER_GROUPS } from '../data/site.mjs';
-import { esc, attrs, icon, BEE_SVG, HONEYCOMB_SVG } from './html.mjs';
+import { esc, attrs, icon, BEE_ICON, BRAND_ICON_PATH, HONEYCOMB_SVG } from './html.mjs';
 
 const YEAR = new Date().getFullYear();
 
@@ -15,6 +15,7 @@ function head(page) {
   const desc = page.description || SITE.description;
   const noindex = page.noindex ? '  <meta name="robots" content="noindex, nofollow">\n' : '';
   const jsonLd = [organizationLd(), ...(page.jsonLd ? page.jsonLd(url) : [])];
+  const ogImage = `${SITE.domain}/${BRAND_ICON_PATH}`;
 
   return `<!doctype html>
 <html lang="${SITE.lang}">
@@ -26,15 +27,21 @@ function head(page) {
   <meta name="description" content="${esc(desc)}">
   <meta name="theme-color" content="${SITE.themeColor}">
   <link rel="canonical" href="${esc(url)}">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="${esc(SITE.brand + ' ' + SITE.brandEn)}">
   <meta property="og:title" content="${esc(title)}">
   <meta property="og:description" content="${esc(desc)}">
   <meta property="og:url" content="${esc(url)}">
+  <meta property="og:image" content="${esc(ogImage)}">
+  <meta property="og:image:width" content="512">
+  <meta property="og:image:height" content="512">
   <meta property="og:locale" content="zh_CN">
   <meta name="twitter:card" content="summary">
-${noindex}  <link rel="icon" type="image/svg+xml" href="assets/img/bee.svg">
-  <script>document.documentElement.classList.add('has-js')</script>
+  <meta name="twitter:image" content="${esc(ogImage)}">
+${noindex}  <script>document.documentElement.classList.add('has-js')</script>
   <link rel="stylesheet" href="assets/css/site.css">
 ${jsonLd.map((o) => `  <script type="application/ld+json">${JSON.stringify(o).replace(/</g, '\\u003c')}</script>`).join('\n')}
 </head>`;
@@ -47,6 +54,7 @@ function organizationLd() {
     name: SITE.subject,
     url: SITE.domain,
     email: SITE.email,
+    logo: `${SITE.domain}/${BRAND_ICON_PATH}`,
     brand: { '@type': 'Brand', name: SITE.brand },
   };
 }
@@ -83,7 +91,7 @@ function navLinks(page, mobile = false) {
 function header(page) {
   return `<header class="site-header" id="siteHeader">
   <div class="wrap header-inner">
-    <a class="brand" href="index.html" aria-label="${esc(SITE.brand)}首页">${BEE_SVG}<span>${esc(SITE.brand)}<small>D-BEE</small></span></a>
+    <a class="brand" href="index.html" aria-label="${esc(SITE.brand)}首页">${BEE_ICON}<span>${esc(SITE.brand)}<small>D-BEE</small></span></a>
     <nav class="nav" aria-label="主导航">${navLinks(page)}</nav>
     <div class="header-actions">
       <a class="btn btn-primary btn-sm" href="${SITE.productUrl}" target="_blank" rel="noopener noreferrer">打开 Web 版 ${icon('external', 'ico-sm')}</a>
@@ -93,7 +101,7 @@ function header(page) {
 </header>
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="站点导航" aria-hidden="true">
   <div class="wrap mobile-menu-top">
-    <a class="brand" href="index.html" tabindex="-1">${BEE_SVG}<span>${esc(SITE.brand)}<small>D-BEE</small></span></a>
+    <a class="brand" href="index.html" tabindex="-1">${BEE_ICON}<span>${esc(SITE.brand)}<small>D-BEE</small></span></a>
     <button class="menu-btn" id="menuClose" type="button" aria-label="关闭菜单">${icon('close')}</button>
   </div>
   <nav class="mobile-nav" aria-label="移动端导航">${navLinks(page, true)}</nav>
@@ -120,9 +128,10 @@ function footer() {
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-brand">
-        <a class="brand" href="index.html" aria-label="${esc(SITE.brand)}首页">${BEE_SVG}<span>${esc(SITE.brand)}<small>D-BEE</small></span></a>
+        <a class="brand" href="index.html" aria-label="${esc(SITE.brand)}首页">${BEE_ICON}<span>${esc(SITE.brand)}<small>D-BEE</small></span></a>
         <p>AI 拍照识别饮食热量的记录工具。<br>记录每一餐，看见趋势，慢慢调整。</p>
         <p class="footer-note">营养与热量数据为参考估算值，不构成医疗或营养建议。</p>
+        <p class="footer-note">${esc(SITE.PERPETUITY_NOTE)}</p>
       </div>
       ${footerGroups()}
     </div>

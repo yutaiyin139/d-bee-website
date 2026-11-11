@@ -57,8 +57,21 @@ export function icon(name, cls = '') {
   })}>${body}</svg>`;
 }
 
-/** 蜜蜂 logo：沿用原型内联 SVG（视觉资产，非新造） */
-export const BEE_SVG = `<svg class="bee-logo" viewBox="0 0 48 48" aria-hidden="true"><ellipse cx="13.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(-28 13.5 15)"/><ellipse cx="34.5" cy="15" rx="8.5" ry="6" fill="#FBE7C0" transform="rotate(28 34.5 15)"/><path d="M20 19.5Q19 14 15.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28 19.5Q29 14 32.5 12.5" stroke="#2E2418" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="15" cy="12" r="1.7" fill="#2E2418"/><circle cx="33" cy="12" r="1.7" fill="#2E2418"/><ellipse cx="24" cy="30" rx="13" ry="11.5" fill="#F2A93B"/><path d="M13.8 30Q24 34.5 34.2 30" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><path d="M14.8 35.5Q24 39.5 33.2 35.5" stroke="#2E2418" stroke-width="3.2" fill="none" stroke-linecap="round"/><circle cx="19.5" cy="24.5" r="1.9" fill="#2E2418"/><circle cx="28.5" cy="24.5" r="1.9" fill="#2E2418"/><path d="M21.5 27.4Q24 28.9 26.5 27.4" stroke="#2E2418" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M24 41.5l-2.4 4.4h4.8z" fill="#2E2418"/></svg>`;
+/**
+ * 🔴 品牌图标唯一资产：src/assets/img/icon-512.png（真实产品 App 图标）。
+ * 源文件 E:/2026新起点/小宝/dbee/D-Bee图标备份/icon-512.png 原样复制；
+ * favicon.png / apple-touch-icon.png / icon-192.png 均由它等比缩放派生。
+ * 旧版自绘内联 SVG 蜜蜂（bee.svg）已整体下线 —— 官网不得再用自绘图形冒充产品图标。
+ */
+export const BRAND_ICON_PATH = 'assets/img/icon-512.png';
+
+/** 品牌图标 <img>；alt 默认空（相邻文字已含品牌名，属装饰性重复） */
+export function brandIcon(cls = 'bee-logo', size = 96, alt = '') {
+  return `<img class="${esc(cls)}" src="${BRAND_ICON_PATH}" width="${size}" height="${size}" alt="${esc(alt)}" decoding="async">`;
+}
+
+/** header / footer / 装饰统一使用的品牌图标 */
+export const BEE_ICON = brandIcon('bee-logo', 96);
 
 /** 蜂巢纹样：沿用原型 hero 背景（视觉资产） */
 export const HONEYCOMB_SVG = `<svg class="honeycomb" viewBox="0 0 560 240" aria-hidden="true"><path d="M90,44 129.8,67 129.8,113 90,136 50.2,113 50.2,67Z" fill="#FBE7C0"/><path d="M170,4 204.6,24 204.6,64 170,84 135.4,64 135.4,24Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M170,96 204.6,116 204.6,156 170,176 135.4,156 135.4,116Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M250,44 289.8,67 289.8,113 250,136 210.2,113 210.2,67Z" fill="#FBE7C0"/><path d="M330,4 364.6,24 364.6,64 330,84 295.4,64 295.4,24Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M330,96 364.6,116 364.6,156 330,176 295.4,156 295.4,116Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M410,44 449.8,67 449.8,113 410,136 370.2,113 370.2,67Z" fill="#F2A93B" opacity=".5"/><path d="M250,142 284.6,162 284.6,202 250,222 215.4,202 215.4,162Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M90,142 124.6,162 124.6,202 90,222 55.4,202 55.4,162Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M410,142 444.6,162 444.6,202 410,222 375.4,202 375.4,162Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M490,4 524.6,24 524.6,64 490,84 455.4,64 455.4,24Z" fill="none" stroke="#E7DCC3" stroke-width="2"/><path d="M490,96 524.6,116 524.6,156 490,176 455.4,156 455.4,116Z" fill="none" stroke="#E7DCC3" stroke-width="2"/></svg>`;
