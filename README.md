@@ -96,7 +96,14 @@ node tools/check-facts.mjs --selftest   # 验证规则本身可满足（应全�
 
 🔴 **不要**为官网另开 8081 之类的端口：多一个公网端口 = 多一份暴露面与安全组配置，且用户要带端口访问，毫无收益。
 
-### 线上实测现状（2026-11-11，与仓库模板不一致）
+### 线上实测现状（2026-11-11 13:38 基线，与仓库模板不一致）
+
+> 🔴 **状态更新 2026-11-11 14:39：下方「未上线 / 无 A 记录 / 证书不匹配」是执行前基线，现已全部闭环。**
+> 已完成：两条 A 记录生效 → `phase1` → `phase2` → `verify` 三步 EXIT=0。
+> 当前态：`d-bee.com.cn` / `www` 使用**独立证书** `d-bee-corp`（CN=d-bee.com.cn，到期 2027-02-09）；
+> 80 → 308，443 由独立 server 块服务（目录为空故 `/` 返回 **403**）；
+> 主站 `https://d-bee.cn/`=200、`http://d-bee.cn/`=308 未变，主配置文件 md5 与执行前备份完全一致。
+> 下方原文保留作历史基线与「为何需要 `00-` 前缀」的依据，**不再代表当前状态**。
 
 - `/etc/nginx/sites-available/d-bee` **只有一个站点**，其 `server_name`（第 25、120 行）把
   `_ d-bee.cn www.d-bee.cn 150.158.51.106 d-bee.com.cn www.d-bee.com.cn` **全写在同一个块里**；
@@ -133,7 +140,7 @@ sudo bash install-corp-site.sh verify                       # 含主站零影响
 # check-facts.mjs 全绿后，才把 app/ 内容同步到 /var/www/d-bee-corp/
 ```
 
-> ⚠️ `phase1` 只返回 503 占位；`phase2` 完成后目录仍为空（404）。
+> ⚠️ `phase1` 只返回 503 占位；`phase2` 完成后目录仍为空，`/` 返回 **403**（空目录无索引，属预期，非故障）。
 > **内容必须在 `node tools/check-facts.mjs` 全绿后才能上传公开**——当前原型有 8 项合规硬伤。
 
 - 静态托管 **web root = `/var/www/d-bee-corp`**（对应本地 `app/`）；域名 `d-bee.com.cn`（含 `www`），备案号 `-1`。

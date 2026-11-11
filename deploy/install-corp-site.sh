@@ -70,8 +70,10 @@ verify() {
     c2=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 10 http://d-bee.com.cn/ || echo 000)
     c3=$(curl -sSk -o /dev/null -w '%{http_code}' --max-time 10 https://d-bee.com.cn/ || echo 000)
     echo "  官网 http://d-bee.com.cn/ -> $c2  (期望 308)"
-    echo "  官网 https://d-bee.com.cn/ -> $c3  (内容未上传时 404；上传后 200)"
+    echo "  官网 https://d-bee.com.cn/ -> $c3  (空目录 403 / 缺文件 404 / 内容上传后 200)"
     [ "$c2" = "308" ] || { echo "!! 官网 80 跳转未生效"; return 1; }
+    # 空目录时 nginx 返回 403（directory index forbidden），不是 404；只把 000/5xx 判红
+    case "$c3" in 200|403|404) ;; *) echo "!! 官网 443 响应异常，立即回滚"; return 1 ;; esac
   fi
   echo "== 验收通过：主站行为未变 =="
 }
